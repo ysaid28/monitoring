@@ -23,35 +23,35 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="full_name", type="string", length=255)
      */
     private $fullName;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
     /**
      * @var array
      *
-     * @ORM\Column(type="json")
+     * @ORM\Column(name="roles", type="array", nullable=true)
      */
     private $roles = [];
 

@@ -12,13 +12,13 @@
   @include backgroundSize(cover);
 
   .form-content {
-    background-color: $background;
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
     width: 400px;
     padding: 100px 40px;
+    background-color: $background;
     @include transform(-600px);
     @include animation(comeOn .5s .1s linear forwards);
   }

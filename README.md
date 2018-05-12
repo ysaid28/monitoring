@@ -12,15 +12,17 @@ Installation
 Execute this command to install the project:
 ```
 composer install
-
-
-
+```
+Load data fixtures to your database.
+```
+php bin/console doctrine:fixtures:load
 ```
 Usage
 -----
 ```
 php bin/console server:run
 ```
+
 
 Useful commands
 ---------------
