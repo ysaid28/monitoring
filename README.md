@@ -5,15 +5,28 @@ The "Management AWS Application" is a application created to monitor the differe
 Requirements
 ------------
   * PHP 7.1.3 or higher
+  * NPM
 
 Installation
 ------------
 Execute this command to install the project:
 ```
 composer install
+
+
+
 ```
 Usage
 -----
 ```
 php bin/console server:run
 ```
+
+Useful commands
+---------------
+
+```
+ yarn run encore dev
+ yarn run encore dev --watch
+ yarn run encore production
+ ```

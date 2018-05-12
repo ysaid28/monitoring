@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Connexion | {{ parent() }} {% endblock %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('build/css/login.css') }}">
+ {% endblock %}
+
+{% block body %}
+    <div class="form-container">
+        <div class="form-content">{#col-sm-offset-4 #}
+            <h2>AWS Management</h2>
+            {#<h5>By U PRO</h5>#}
+            {% if error is defined and error %}
+                <div class="alert alert-danger">
+                    <button class="close" data-close="alert"></button>
+                    <span> {{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                </div>
+            {% endif %}
+            {#{{ path("fos_user_security_check") }}#}
+            <form action="" method="post">
+                {% if csrf_token is defined and csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                {% endif %}
+                <div class="form-group">
+                    {#<label for="username">{{ 'security.login.username'|trans }}</label>#}
+                    <label for="username">{{ 'label.username'|trans }}</label>
+                    <input type="text" class="form-control" id="username" value="{{ last_username }}" name="_username"
+                           required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">{{ 'label.password'|trans }}</label>
+                    <input type="password" class="form-control" id="password" name="_password" required="required"/>
+                </div>
+                <div class="form-check">
+                    <label for="remember_me" class="form-check-label"><input type="checkbox" id="remember_me"
+                                                                             name="_remember_me" value="on"/>
+                        Se Souvenir de moi{#{{ 'security.login.remember_me'|trans }}#}</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-block submit"
+                                    id="_submit" name="_submit"> Submit{#{{ 'security.login.submit'|trans }}#}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="border"></div>
+
+            <div class="form-footer">
+                <p>Copyright &copy; {{ "now"|date("Y") }} By UPro</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
