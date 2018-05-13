@@ -1,0 +1,108 @@
+@import "import/variables";
+@import "import/mixins";
+
+/** Body **/
+
+.container {
+    width: 90%;
+    position: relative;
+}
+
+/** Navbar**/
+.navbar {
+    background-color: $background-main;
+
+    .navbar-header {
+        width: 230px;
+        display: inline;
+        padding: 10px 15px 0;
+    }
+    .navbar-nav {
+        li > a {
+            color: $link-color;
+        }
+        li > a:hover {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .active > a, .active > a:focus, .active > a:hover {
+            background-color: #2a7da8;
+            color: white;
+        }
+
+        .open > a, .open > a:focus, .open > a:hover {
+            background-color: $link-color;
+        }
+    }
+
+    .navbar-header {
+        width: 200px;
+
+        a.brand {
+            display: inline-block;
+            font-size: 1.6em;
+            white-space: nowrap;
+            font-family: 'Lobster', cursive;
+            font-height: 900;
+            color: $link-color;
+            line-height: 30.4px;
+        }
+
+        a.brand:hover, a.brand:focus {
+            color: #ededed;
+            text-decoration: none;
+        }
+    }
+
+}
+
+/*** Main ****/
+#main {
+    margin-top: 50px;
+    .instance {
+        position: relative;
+        color: $link-color;
+        padding: 10px 60px;
+        font-weight: normal;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    .instance > i {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 39px;
+        padding: 11px 0;
+    }
+
+    .instance-title {
+        margin: 10px 0 10px !important;
+    }
+
+    .instance-title {
+        background-color: $background-main;
+        i {
+            background-color: #2a7da8;
+        }
+    }
+
+    .instance-title-dev {
+        background-color: #00b0d2;
+        i {
+            background-color: #0096b6;
+        }
+    }
+
+    .instance-title-cloud {
+        background-color: #23ca28;
+        i {
+            background-color: #21ab25;
+        }
+    }
+}
+
+
+

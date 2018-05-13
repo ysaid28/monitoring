@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% block body_id 'main' %}
+
+{% block header %}
+    {% if app.user is defined and app.user %}
+        {% set routeName = app.request.get('_route') %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">AWS <span class="text">Management</span></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li {% if routeName == 'home_page' %}
+                    class="active" {% endif %}>
+                    <a href="{{ path('home_page') }}"><i class="fa fa-home"></i></a></li>
+                <li><a href="#about">Instances</a></li>
+                <li><a href="#contact">Services</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Autres <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                    <a id="aws_refresh"
+                       href="{{ path('home_page') }}" class="">
+                        <i class="fa fa-code fa-fw"></i>
+                        Crontab</a>
+                </li>
+                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                    <a id="aws_refresh" href="{{ path('home_page') }}" class="active"><i
+                                class="fa fa-link fa-fw"></i>
+                        URL</a>
+                </li>
+                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                    <a id="aws_logs" class="spec-button"
+                       href="{{ path('home_page') }}"
+                       title="Log"> <i class="fa fa-terminal"></i> Log </a>
+                </li>
+                <li>
+                    <a class="spec-button"
+                       href="{{ path('security_logout') }}"
+                       title="Déconnexion"> <i class="fa fa-power-off"></i> </a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+{% endif %}
+
+
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% block body_app %}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+    <div class="container">
+        <hr>
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; UPro - {{ "now"|date("Y") }} </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+{% endblock %}

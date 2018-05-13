@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{% block title %}AWS Management{% endblock %}</title>
-    {#<link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">#}
+    <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="">
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
     {% endblock %}
@@ -14,6 +14,7 @@
 <body id="{% block body_id %}{% endblock %}">
     {% block header %}{% endblock %}
     {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
     {% block javascripts %}
         <script src="{{ asset('build/manifest.js') }}"></script>
         <script src="{{ asset('build/js/common.js') }}"></script>

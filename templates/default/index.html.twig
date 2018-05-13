@@ -1,31 +1,56 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %} Connexion | {{ parent() }} {% endblock %}
 
-{% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/main.css') }}">
+{% endblock %}
+{% block body_id %}main{% endblock %}
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
+{% block body_app %}
+    <section>
+        <h4 class="instance instance-title"><i class="fa fa-linux fa-fw"></i>Instances
+            {% if notifies is defined %}
+                <form action="#" autocomplete="off">
+                    <div class="pull-right btn-switch" id="notify_{{ notifies.id }}">
+                        <input
+                                {% if notifies.notify %}
+                                    checked
+                                {% endif %}
+                                class="hide"
+                                id="change_state"
+                                data-size="small"
+                                data-notify-id="{{ notifies.id }}"
+                                data-notify-name="{{ notifies.name }}"
+                                data-on="DÉSACTIVER LA NOTIFICATION" data-off="ACTIVER LA NOTIFICATION"
+                                data-width="230"
+                                data-onstyle="success" data-offstyle="warning"
+                                data-toggle="toggle" type="checkbox"
+                        >
+                    </div>
+                </form>
+            {% endif %}
+        </h4>
 
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
-
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a href="{{ 'src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code>
-            </li>
-            <li>Your template at <code><a href="{{ 'templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code>
-            </li>
-        </ul>
-    </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Instance ID</th>
+                <th>Nom</th>
+                <th>Status</th>
+                <th>Démarrée le:</th>
+                <th>Zone</th>
+                <th>Private IP</th>
+                <th>Public IP</th>
+                <th>VPC</th>
+                <th>Subnet</th>
+                <th>Logs</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </section>
 {% endblock %}
