@@ -88,7 +88,7 @@ adjust-sourcemap-loader@^1.1.0:
     object-path "^0.9.2"
     regex-parser "^2.2.9"
 
-ajv-keywords@^3.1.0:
+ajv-keywords@^3.1.0, ajv-keywords@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.2.0.tgz#e86b819c602cf8821ad637413698f1dec021847a"
 
@@ -101,7 +101,7 @@ ajv@^5.0.0, ajv@^5.1.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.1.0:
+ajv@^6.1.0, ajv@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.0.tgz#4c8affdf80887d8f132c9c52ab8a2dc4d0b7b24c"
   dependencies:
@@ -875,6 +875,16 @@ boom@5.x.x:
 bootstrap-sass@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
+
+bootstrap@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
+
+bootswatch@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/bootswatch/-/bootswatch-4.1.1.tgz#eb4e053c469d4dc8cdaff11ff4ddbef63e86a56d"
+  dependencies:
+    bootstrap "^4.1.1"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -2122,10 +2132,6 @@ follow-redirects@^1.0.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
   dependencies:
     debug "^3.1.0"
-
-font-awesome-scss@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/font-awesome-scss/-/font-awesome-scss-1.0.0.tgz#aaea34614f636e0c026b689280844543fb4dff24"
 
 font-awesome@^4.7.0:
   version "4.7.0"

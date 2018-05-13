@@ -6,12 +6,14 @@ Requirements
 ------------
   * PHP 7.1.3 or higher
   * NPM
+  * Yarn 
 
 Installation
 ------------
 Execute this command to install the project:
 ```
 composer install
+npm install -g grunt-cli
 ```
 Load data fixtures to your database.
 ```
