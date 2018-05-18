@@ -4,9 +4,8 @@ parameters:
     locale: 'fr'
     app_locales: en|fr
     app.notifications.email_sender: dev@u-pro.fr
-    
+            
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
@@ -14,8 +13,6 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-#            $locales: '%app_locales%'
-#            $defaultLocale: '%locale%'
             $emailSender: '%app.notifications.email_sender%'    
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -27,6 +24,16 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+        
+    app.aws.service:
+        class: App\Service\AwsService
+        public: true
+        arguments: ['@service_container']
+        
+    aws_credentials_service:
+        class: Aws\Credentials\Credentials
+        public: true
+        arguments:
+            - '%env(AWS_KEY)%'
+            - '%env(AWS_SECRET)%'
+       

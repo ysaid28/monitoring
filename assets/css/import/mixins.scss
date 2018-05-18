@@ -1,20 +1,20 @@
 @mixin transform($pix) {
-  -webkit-transform: translateX($pix);
-  -moz-transform: translateX($pix);
-  -ms-transform: translateX($pix);
-  -o-transform: translateX($pix);
-  transform: translateX($pix);
+    -webkit-transform: translateX($pix);
+    -moz-transform: translateX($pix);
+    -ms-transform: translateX($pix);
+    -o-transform: translateX($pix);
+    transform: translateX($pix);
 }
 
 @mixin animation($var...) {
-  -webkit-animation: $var;
-  -o-animation: $var;
-  animation: $var;
+    -webkit-animation: $var;
+    -o-animation: $var;
+    animation: $var;
 }
 
 @mixin backgroundSize($param) {
-  -webkit-background-size: $param;
-  -moz-background-size: $param;
-  -o-background-size: $param;
-  background-size: $param;
+    -webkit-background-size: $param;
+    -moz-background-size: $param;
+    -o-background-size: $param;
+    background-size: $param;
 }

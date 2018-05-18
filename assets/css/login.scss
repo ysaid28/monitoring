@@ -3,111 +3,111 @@
 @import "import/mixins";
 
 #login {
-  .form-container {
+    .form-container {
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('../images/background.jpg') no-repeat center center;
-    @include backgroundSize(cover);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('../images/background.jpg') no-repeat center center;
+        @include backgroundSize(cover);
 
-    .form-content {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 400px;
-      padding: 100px 40px;
-      background-color: $background;
-      @include transform(-600px);
-      @include animation(comeOn .5s .1s linear forwards);
-    }
+        .form-content {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 400px;
+            padding: 100px 40px;
+            background-color: $background;
+            @include transform(-600px);
+            @include animation(comeOn .5s .1s linear forwards);
+        }
 
-    label {
-      text-transform: uppercase;
-      font-weight: normal;
-      font-size: 14px;
-      color: #eee;
-    }
+        label {
+            text-transform: uppercase;
+            font-weight: normal;
+            font-size: 14px;
+            color: #eee;
+        }
 
-    h2 {
-      font-family: 'Lobster', cursive;
-      margin: 0;
-      text-transform: uppercase;
-      font-weight: normal;
-      font-size: 35px;
-      color: $title-color;
-      line-height: 30.4px;
-      font-height: 900;
-    }
+        h2 {
+            font-family: 'Lobster', cursive;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: normal;
+            font-size: 35px;
+            color: $title-color;
+            line-height: 30.4px;
+            font-height: 900;
+        }
 
-    input {
-      background-color: #fff;
-      border-radius: 0px;
-      border: none;
-    }
-    form {
-      padding: 20px 0;
-      z-index: 2;
-      position: relative;
-    }
+        input {
+            background-color: #fff;
+            border-radius: 0px;
+            border: none;
+        }
+        form {
+            padding: 20px 0;
+            z-index: 2;
+            position: relative;
+        }
 
-    .submit {
-      font-weight: normal;
-      font-size: 14px;
-      background-color: #287fab;
-      border: none;
-      padding: 8px 14px;
-      margin: 7px 0;
-      color: #fff;
-      float: right;
-    }
+        .submit {
+            font-weight: normal;
+            font-size: 14px;
+            background-color: #287fab;
+            border: none;
+            padding: 8px 14px;
+            margin: 7px 0;
+            color: #fff;
+            float: right;
+        }
 
-    .submit:hover {
-      background-color: #277aa5;
-    }
+        .submit:hover {
+            background-color: #277aa5;
+        }
 
-    .alert {
-      margin: 20px 0 0 0;
-    }
+        .alert {
+            margin: 20px 0 0 0;
+        }
 
-    .border {
-      width: 0;
-      height: 0;
-      border-left: 283px solid transparent;
-      border-right: 283px solid transparent;
-      border-bottom: 283px solid #2E8DBD;
-      position: absolute;
-      bottom: -43px;
-      right: -183px;
-      transform: rotate(135deg);
-      z-index: 1;
+        .border {
+            width: 0;
+            height: 0;
+            border-left: 283px solid transparent;
+            border-right: 283px solid transparent;
+            border-bottom: 283px solid #2E8DBD;
+            position: absolute;
+            bottom: -43px;
+            right: -183px;
+            transform: rotate(135deg);
+            z-index: 1;
+        }
+        .form-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 0px 40px;
+            color: #e9e9e9;
+            text-transform: capitalize;
+            font-size: small;
+            font-family: "Comic Sans MS", cursive;
+            z-index: 2;
+        }
     }
-    .form-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      padding: 0px 40px;
-      color: #e9e9e9;
-      text-transform: capitalize;
-      font-size: small;
-      font-family: "Comic Sans MS", cursive;
-      z-index: 2;
-    }
-  }
 
 }
 
 @keyframes comeOn {
-  0% {
-    @include transform(-600px);
-  }
-  70% {
-    @include transform(20px);
-  }
-  100% {
-    @include transform(0px);
-  }
+    0% {
+        @include transform(-600px);
+    }
+    70% {
+        @include transform(20px);
+    }
+    100% {
+        @include transform(0px);
+    }
 }
