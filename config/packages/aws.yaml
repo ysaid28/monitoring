@@ -1,32 +1,27 @@
+parameters:
+    region: '%env(AWS_REGION)%'
+    aws_key: '%env(AWS_KEY)%'
+    aws_secret: '%env(AWS_SECRET)%'
+
 aws:
     version: latest
-    region: eu-west-3
-#    public: true
-#    autowire: true   
-#    autoconfigure: true    
-#    credentials:
-#        key: '%env(AWS_KEY)%'
-#        secret: '%env(AWS_SECRET)%'
-#    ec2: 
-#        region: 'eu-west-3' 
-#        version: '2016-11-15'
-#    S3:
-#        version: '2006-03-01'
-#
+    region: '%region%'
+    credentials:
+        key: '%aws_key%'
+        secret: '%aws_secret%'
+    ec2: 
+        region: '%region%'
+        version: '2016-11-15'
+    S3:
+        version: '2006-03-01'
 
 services:
     aws.credentials:
         class: Aws\Credentials\Credentials
         public: true
         arguments:
-            - '%env(AWS_KEY)%'
-            - '%env(AWS_SECRET)%'
-            
-    aws.ec2:
-        class: Aws\Ec2\Ec2Client
-        public: true
-        arguments: 
-            - { region: 'eu-west-3', version: 'latest', credentials: '@aws.credentials' }
+            - '%aws_key%'
+            - '%aws_secret%'
 
     app.aws:
         class: App\Service\AwsService
@@ -35,3 +30,8 @@ services:
             - '@service_container'
             - '@aws.ec2'
             
+#    aws.ec2:
+#        class: Aws\Ec2\Ec2Client
+#        public: true
+#        arguments: 
+#            - { region: 'eu-west-3', version: 'latest', credentials: '@aws.credentials' }

@@ -23,10 +23,10 @@ class AwsService implements ContainerAwareInterface
      * array
      * */
     private $env = ['prod', 'staging'];
-    
-    /** 
+
+    /**
      * @var Ec2Client
-     * 
+     *
      */
     private $ec2;
 
@@ -84,7 +84,7 @@ class AwsService implements ContainerAwareInterface
             if (isset($reservation['Instances']))
                 $instances = $reservation['Instances'];
         }
-        
+
         return $instances;
     }
 
@@ -120,10 +120,9 @@ class AwsService implements ContainerAwareInterface
             'DryRun' => false,
             'Filters' => !empty($filters) ? $this->addFilters($filters) : []
         ])->toArray();
-        
+
         return $this->getResults($data);
     }
-
-
+        
 }
 
