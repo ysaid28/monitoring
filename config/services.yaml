@@ -25,15 +25,3 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
         
-    app.aws.service:
-        class: App\Service\AwsService
-        public: true
-        arguments: ['@service_container']
-        
-    aws_credentials_service:
-        class: Aws\Credentials\Credentials
-        public: true
-        arguments:
-            - '%env(AWS_KEY)%'
-            - '%env(AWS_SECRET)%'
-       

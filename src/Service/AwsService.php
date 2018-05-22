@@ -23,14 +23,22 @@ class AwsService implements ContainerAwareInterface
      * array
      * */
     private $env = ['prod', 'staging'];
+    
+    /** 
+     * @var Ec2Client
+     * 
+     */
+    private $ec2;
 
     /**
      * AwsService constructor.
      * @param ContainerInterface $container
+     * @param Ec2Client $ec2Client
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, Ec2Client $ec2Client)
     {
         $this->container = $container;
+        $this->ec2 = $ec2Client;
     }
 
     /**
@@ -74,8 +82,9 @@ class AwsService implements ContainerAwareInterface
         list('Reservations' => $reservations) = $data;
         foreach ($reservations as $reservation) {
             if (isset($reservation['Instances']))
-                $instances = $instances['Instances'];
+                $instances = $reservation['Instances'];
         }
+        
         return $instances;
     }
 
@@ -84,11 +93,29 @@ class AwsService implements ContainerAwareInterface
      * @param array $filters
      * @return array
      */
-    public function getInstances(array $filters = []): ?array
+    public function getInstanceEc2(array $filters = []): ?array
     {
-        $credentials = $this->container->get('aws_credentials_service');
-        $ec2 = new Ec2Client(['version' => 'latest', 'region' => 'eu-west-3', 'credentials' => $credentials]);
+        $data = $this->ec2->describeInstances([
+            'DryRun' => false,
+            'Filters' => !empty($filters) ? $this->addFilters($filters) : []
+        ])->toArray();
 
+        return $this->getResults($data);
+    }
+
+    /**
+     * @param array $filters
+     * @param array $options
+     * @return array
+     */
+    public function getInstanceEc2WithConfig(array $filters = [], array $options = []): ?array
+    {
+        if (empty($options)) {
+            $credentials = $this->container->get('aws.credentials');
+            $options = ['version' => 'latest', 'region' => 'eu-west-3', 'credentials' => $credentials];
+        }
+
+        $ec2 = new Ec2Client($options);
         $data = $ec2->describeInstances([
             'DryRun' => false,
             'Filters' => !empty($filters) ? $this->addFilters($filters) : []
