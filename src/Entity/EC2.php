@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EC2Repository")
- * @ORM\Table(name="ec2")
+ * 
  */
 class EC2 extends Instance implements EC2Interface
 {

@@ -15,6 +15,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\DiscriminatorColumn(name="instance_type", type="string", length=20)
  * @ORM\DiscriminatorMap({
  *     "ec2"       = "App\Entity\EC2",
+ *     "ec2"       = "App\Entity\RDS",
+ *     "other_instance"       = "App\Entity\OtherInstance",
  * })
  * */
 abstract class Instance implements InstanceInterface
