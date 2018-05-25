@@ -18,7 +18,7 @@ trait StateEntity
     /**
      * @param mixed $state
      */
-    public function setState($state): void
+    public function setState(?int $state): void
     {
         if (!StateType::isValid($state) && $state) {
             throw new \UnexpectedValueException("Value '$state' is not a valid Content Type");
@@ -29,7 +29,7 @@ trait StateEntity
     /**
      * @return int|null
      */
-    public function getState(): ?integer
+    public function getState(): ?int
     {
         return $this->state;
     }

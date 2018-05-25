@@ -24,12 +24,9 @@ trait SortableEntity
 
     /**
      * @param int|null $position
-     * @return SortableEntity
      */
-    public function setPosition(?int $position): self
+    public function setPosition(?int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 }

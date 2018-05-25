@@ -11,7 +11,6 @@ interface Sortable
 
     /**
      * @param int|null $position
-     * @return Sortable
      */
-    public function setPosition(?int $position): self;
+    public function setPosition(?int $position): void;
 }

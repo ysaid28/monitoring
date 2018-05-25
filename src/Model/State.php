@@ -11,7 +11,6 @@ interface State {
 
     /**
      * @param int|null $state
-     * @return State
      */
-    public function setState(?int $state);
+    public function setState(?int $state): void;
 }

@@ -4,14 +4,20 @@ namespace App\Entity;
 
 use App\Entity\Traits\SortableEntity;
 use App\Entity\Traits\StateEntity;
+use App\Model\Enum\InstanceType;
 use App\Model\InstanceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\InstanceRepository")
- */
-class Instance implements InstanceInterface
+ * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="instance_type", type="string", length=20)
+ * @ORM\DiscriminatorMap({
+ *     "ec2"       = "App\Entity\EC2",
+ * })
+ * */
+abstract class Instance implements InstanceInterface
 {
     use SortableEntity;
     use StateEntity;
@@ -27,13 +33,24 @@ class Instance implements InstanceInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $arn;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $name;
 
+    /**
+     * @var string
+     */
+    private $instanceType;
+
+    /**
+     * Instance constructor.
+     * @param string $instanceType
+     */
+    public function __construct(string $instanceType)
+    {
+        if (!InstanceType::isValid($instanceType)) {
+            throw new \UnexpectedValueException("Value '$instanceType' is not a valid Content Type");
+        }
+        $this->instanceType = $instanceType;
+    }
 
     /**
      * @return int
@@ -41,25 +58,6 @@ class Instance implements InstanceInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getArn(): ?string
-    {
-        return $this->arn;
-    }
-
-    /**
-     * @param null|string $arn
-     * @return Instance
-     */
-    public function setArn(?string $arn): self
-    {
-        $this->arn = $arn;
-
-        return $this;
     }
 
     /**
@@ -79,5 +77,23 @@ class Instance implements InstanceInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @param string $instanceType
+     * @return Instance
+     */
+    public function setInstanceType(string $instanceType): Instance
+    {
+        $this->instanceType = $instanceType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstanceType(): string
+    {
+        return $this->instanceType;
     }
 }

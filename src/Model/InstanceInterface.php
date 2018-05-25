@@ -8,6 +8,8 @@
 
 namespace App\Model;
 
+use App\Entity\Instance;
+
 interface InstanceInterface extends Timestampable, Sortable, State
 {
 
@@ -15,19 +17,7 @@ interface InstanceInterface extends Timestampable, Sortable, State
      * @return int
      */
     public function getId(): int;
-
-    /**
-     * @return null|string
-     */
-    public function getArn(): ?string;
-
-    /**
-     * @param null|string $arn
-     * @return InstanceInterface
-     */
-    public function setArn(?string $arn): self;
-
-
+    
     /**
      * @return null|string
      */
@@ -35,9 +25,19 @@ interface InstanceInterface extends Timestampable, Sortable, State
 
     /**
      * @param null|string $name
-     * @return InstanceInterface
+     * @return Instance
      */
-    public function setName(?string $name): self;
+    public function setName(?string $name): Instance;
+    
+     /**
+     * @param string $instanceType
+     * @return Instance
+     */
+    public function setInstanceType(string $instanceType): Instance;
 
 
+    /**
+     * @return string
+     */
+    public function getInstanceType(): string;
 }
