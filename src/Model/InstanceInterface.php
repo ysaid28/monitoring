@@ -17,7 +17,7 @@ interface InstanceInterface extends Timestampable, Sortable, State
      * @return int
      */
     public function getId(): int;
-    
+
     /**
      * @return null|string
      */
@@ -28,16 +28,16 @@ interface InstanceInterface extends Timestampable, Sortable, State
      * @return Instance
      */
     public function setName(?string $name): Instance;
-    
-     /**
-     * @param string $instanceType
+
+    /**
+     * @param string $type
      * @return Instance
      */
-    public function setInstanceType(string $instanceType): Instance;
+    public function setType(?string $type): Instance;
 
 
     /**
      * @return string
      */
-    public function getInstanceType(): string;
+    public function getType(): string;
 }

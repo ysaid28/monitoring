@@ -2,7 +2,7 @@
 
 namespace App\Entity\Traits;
 
-use App\Model\Enum\StateType;
+use App\Model\Enum\InstanceState;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,16 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
 trait StateEntity
 {
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $state;
 
     /**
      * @param mixed $state
      */
-    public function setState(?int $state): void
+    public function setState(?string $state): void
     {
-        if (!StateType::isValid($state) && $state) {
+        if (!InstanceState::isValid($state) && $state) {
             throw new \UnexpectedValueException("Value '$state' is not a valid Content Type");
         }
         $this->state = $state;

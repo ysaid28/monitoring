@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Model\Enum;
+
+use MyCLabs\Enum\Enum;
+
+final class InstanceState extends Enum
+{
+    const UNKNOWN = 'unknown';
+    const ENABLE = 'enable';
+    const RUNNING = 'running';
+    const DISABLED = 'disabled';
+    const STOPPED = 'stopped';
+    const TERMINATED = 'terminated';
+}

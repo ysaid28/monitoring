@@ -12,14 +12,13 @@ namespace App\Model;
 interface AWSInterface
 {
     /**
-     * @return null|string
+     * @return string
      */
-    public function getArn(): ?string;
-
+    public function getInstanceId(): string;
+    
     /**
-     * @param null|string $arn
-     * @return mixed
+     * @param string $instanceId
      */
-    public function setArn(?string $arn);
+    public function setInstanceId(string $instanceId): void;
 
 }

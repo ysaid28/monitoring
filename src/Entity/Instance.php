@@ -12,11 +12,11 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="instance_type", type="string", length=20)
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=20)
  * @ORM\DiscriminatorMap({
  *     "ec2"       = "App\Entity\EC2",
- *     "ec2"       = "App\Entity\RDS",
- *     "other_instance"       = "App\Entity\OtherInstance",
+ *     "rds"       = "App\Entity\RDS",
+ *     "other_instance"       = "App\Entity\OtherInstance"
  * })
  * */
 abstract class Instance implements InstanceInterface
@@ -27,8 +27,8 @@ abstract class Instance implements InstanceInterface
 
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
@@ -40,7 +40,7 @@ abstract class Instance implements InstanceInterface
     /**
      * @var string
      */
-    private $instanceType;
+    private $type;
 
     /**
      * Instance constructor.
@@ -51,7 +51,7 @@ abstract class Instance implements InstanceInterface
         if (!InstanceType::isValid($instanceType)) {
             throw new \UnexpectedValueException("Value '$instanceType' is not a valid Content Type");
         }
-        $this->instanceType = $instanceType;
+        $this->type = $instanceType;
     }
 
     /**
@@ -82,20 +82,20 @@ abstract class Instance implements InstanceInterface
     }
 
     /**
-     * @param string $instanceType
+     * @param string $type
      * @return Instance
      */
-    public function setInstanceType(string $instanceType): Instance
+    public function setType(?string $type): Instance
     {
-        $this->instanceType = $instanceType;
+        $this->type = $type;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getInstanceType(): string
+    public function getType(): string
     {
-        return $this->instanceType;
+        return $this->type;
     }
 }

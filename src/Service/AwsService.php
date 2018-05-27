@@ -81,12 +81,13 @@ class AwsService implements ContainerAwareInterface
         $instances = [];
         list('Reservations' => $reservations) = $data;
         foreach ($reservations as $reservation) {
-            $reservations = isset($reservation['Instances']) ?? null;
-            if (null !== $reservations) {
-//                $this->container->get('app.init')->in
+            $reservations = isset($reservation['Instances']) ? $reservation['Instances'] : null;
+            foreach ($reservations as $reservation) {
+                $instances =$this->container->get('app.init')->instanceEC2($reservation);
             }
         }
 
+        die;
         return $instances;
     }
 

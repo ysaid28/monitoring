@@ -2,15 +2,16 @@
 
 namespace App\Model;
 
-interface State {
-    
-     /**
+interface State
+{
+
+    /**
      * @return int|null
      */
     public function getState(): ?int;
 
     /**
-     * @param int|null $state
+     * @param string|null $state
      */
-    public function setState(?int $state): void;
+    public function setState(?string $state): void;
 }

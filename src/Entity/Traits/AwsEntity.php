@@ -2,7 +2,7 @@
 
 namespace App\Entity\Traits;
 
-use App\Model\Enum\StateType;
+use App\Model\Enum\InstanceState;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,23 +11,25 @@ use Doctrine\ORM\Mapping as ORM;
 trait AwsEntity
 {
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     *
+     * @ORM\Column(name="instance_id", type="string", length=255)
      */
-    private $arn;
+    private $instanceId;
     
     /**
-     * @return null|string
+     * @return string
      */
-    public function getArn(): ?string
+    public function getInstanceId(): string
     {
-        return $this->arn;
+        return $this->instanceId;
     }
 
     /**
-     * @param null|string $arn
+     * @param string $instanceId
      */
-    public function setArn(?string $arn)
+    public function setInstanceId(string $instanceId): void
     {
-        $this->arn = $arn;
+        $this->instanceId = $instanceId;
     }
 }
