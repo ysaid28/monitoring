@@ -9,19 +9,137 @@
 namespace App\Service;
 
 
-use App\Entity\Instance;
+use App\Entity\EC2;
+use App\Entity\Subnet;
+use App\Entity\VPC;
+use App\Model\Enum\InstanceState;
+use App\Model\State;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class InitService
+//use Doctrine\ORM\EntityManagerInterface;
+
+/**
+ * @property EntityManager em
+ */
+class InitService implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
+    /** @var EntityManager $em */
+    private $em;
+
+    /**
+     * InitService constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager, ContainerInterface $container)
+    {
+        $this->em = $entityManager;
+        $this->container = $container;
+    }
+
     /**
      * @param array $data
-     * @return Instance
+     * @param string $key
+     * @return any|null
      */
-    public function instance(array $data): Instance
+    public function getData(array $data, string $key)
     {
-//        if (empty($data))
-//            return new Instance();
-//        return new Instance();
+        return isset($data[$key]) ? $data[$key] : null;
+    }
+
+    /**
+     * @param array $data
+     * @return EC2
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function instanceEC2(array $data): ?EC2
+    {
+
+        $instanceId = $this->getData($data, 'InstanceId');
+        if (empty($instanceId))
+            return null;
+
+        $ec2 = $this->em->getRepository(EC2::class)->findOneByInstanceId($instanceId);
+        if (null === $ec2 || !($ec2 instanceof EC2)) {
+            $ec2 = new EC2();
+            $ec2->setInstanceId($instanceId);
+        }
+        $methods = [
+            'ImageId', 'KeyName', 'LaunchTime', 'PublicIpAddress', 'PrivateIpAddress', 'PublicDnsName', 'PrivateDnsName',
+            'StateTransitionReason', 'ClientToken', 'EbsOptimized', 'InstanceType',
+            'EnaSupport', 'Hypervisor', 'SourceDestCheck', 'VirtualizationType', 'CpuOptions', 'Architecture'
+        ];
+        foreach ($methods as $item) {
+            $method = 'set' . $item;
+            if (method_exists($ec2, $method)) {
+                $ec2->$method($this->getData($data, $item));
+            }
+        }
+        if (isset($data['Tags']) && is_array($data['Tags'])) {
+            foreach ($data['Tags'] as $tag) {
+                if (is_array($tag) && in_array('Name', $tag)) {
+                    $ec2->setName(isset($tag['Value']) ? $tag['Value'] : null);
+                    break;
+                }
+            }
+        }
+
+        $ec2->setState(isset($data["State"]["Name"]) ? strtolower($data["State"]["Name"]) : InstanceState::UNKNOWN);
+        $vpcId = $this->getData($data, 'VpcId');
+        if ($vpcId) {
+            $vpc = $this->em->getRepository(VPC::class)->findOneByVpcId($vpcId);
+            if (null === $vpc) {
+                $vpc = (new VPC())
+                    ->setVpcId($vpcId)
+                    ->addEc2s($ec2);
+                $this->em->persist($vpc);
+            }
+            $ec2->setVpc($vpc);
+        }
+        $subnetId = $this->getData($data, 'SubnetId');
+        if ($subnetId) {
+            $subnet = $this->em->getRepository(Subnet::class)->findOneBySubnetId($subnetId);
+            if (null === $subnet) {
+                $subnet = (new Subnet())
+                    ->setSubnetId($subnetId)
+                    ->addEc2s($ec2);
+                $this->em->persist($subnet);
+            }
+            $ec2->setSubnet($subnet);
+        }
+        if ($ec2->getId() === null) {
+            $this->em->persist($ec2);
+            $this->em->flush($ec2);
+            $ec2 = $this->em->getRepository(EC2::class)->findOneByInstanceId($instanceId);
+        } else
+            $this->em->flush($ec2);
+        return $ec2;
+    }
+
+
+    public function otherInstance(string $nameFile, bool $prod = true)
+    {
+        dump($this->container->getParameter('kernel.root_dir'));
+        $filepath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
+        if (!file_exists($filepath)) {
+            throw new \UnexpectedValueException(" The file \"'$nameFile'\" doesn't exist");
+        }
+        
+        $results = [];
+        if (($handle = fopen($filepath, 'r')) !== false) {
+            while (($data = fgetcsv($handle, 0, ',')) !== false) {
+                dump($data) or die;
+            }
+            fclose($handle);
+        }
+        die;
+
+
     }
 }
 

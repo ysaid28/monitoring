@@ -8,6 +8,7 @@ final class InstanceState extends Enum
 {
     const UNKNOWN = 'unknown';
     const ENABLE = 'enable';
+    const PENDING = 'pending';
     const RUNNING = 'running';
     const DISABLED = 'disabled';
     const STOPPED = 'stopped';

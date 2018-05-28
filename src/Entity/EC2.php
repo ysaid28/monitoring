@@ -45,6 +45,13 @@ class EC2 extends Instance implements EC2Interface
     /**
      * @var string
      *
+     * @ORM\Column(name="public_ip_address", type="string", length=255)
+     */
+    private $publicIpAddress;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="public_dns_name", type="string", length=255)
      */
     private $publicDnsName;
@@ -130,7 +137,7 @@ class EC2 extends Instance implements EC2Interface
      *
      */
     private $vpc;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Subnet", inversedBy="ec2s")
      *
@@ -238,6 +245,9 @@ class EC2 extends Instance implements EC2Interface
      */
     public function setPrivateIpAddress(?string $privateIpAddress): void
     {
+        if (!empty($privateIpAddress)) {
+            $this->setPrivateId($privateIpAddress);
+        }
         $this->privateIpAddress = $privateIpAddress;
     }
 
@@ -433,5 +443,24 @@ class EC2 extends Instance implements EC2Interface
     public function setSubnet(Subnet $subnet): void
     {
         $this->subnet = $subnet;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicIpAddress(): ?string
+    {
+        return $this->publicIpAddress;
+    }
+
+    /**
+     * @param string $publicIpAddress
+     */
+    public function setPublicIpAddress(?string $publicIpAddress): void
+    {
+        if (!empty($publicIpAddressà)) {
+            $this->setPublicId($publicIpAddress);
+        }
+        $this->publicIpAddress = $publicIpAddress;
     }
 }

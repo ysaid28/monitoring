@@ -16,7 +16,7 @@ interface InstanceInterface extends Timestampable, Sortable, State
     /**
      * @return int
      */
-    public function getId(): int;
+    public function getId(): ?int;
 
     /**
      * @return null|string

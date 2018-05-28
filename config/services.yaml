@@ -24,4 +24,8 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-        
+    
+    app.init:
+        class: App\Service\InitService
+        public: true
+        arguments: ['@doctrine.orm.entity_manager', '@service_container']

@@ -18,11 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AwsService implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
-    /**
-     * @var
-     * array
-     * */
-    private $env = ['prod', 'staging'];
 
     /**
      * @var Ec2Client
@@ -76,19 +71,17 @@ class AwsService implements ContainerAwareInterface
         return $data;
     }
 
-    public function getResults(array $data): array
+    public function getResults(array $data): ?array
     {
-        $instances = [];
+        $results = [];
         list('Reservations' => $reservations) = $data;
         foreach ($reservations as $reservation) {
-            $reservations = isset($reservation['Instances']) ? $reservation['Instances'] : null;
-            foreach ($reservations as $reservation) {
-                $instances =$this->container->get('app.init')->instanceEC2($reservation);
+            $instances = isset($reservation['Instances']) ? $reservation['Instances'] : null;
+            foreach ($instances as $instance) {
+                $results[] =$this->container->get('app.init')->instanceEC2($instance);
             }
         }
-
-        die;
-        return $instances;
+        return $results;
     }
 
 

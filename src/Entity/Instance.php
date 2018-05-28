@@ -43,21 +43,52 @@ abstract class Instance implements InstanceInterface
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="public_id", type="string", length=255, nullable=true)
+     */
+    private $publicId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="private_id", type="string", length=255, nullable=true)
+     */
+    private $privateId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="host_name", type="string", length=255, nullable=true)
+     */
+    private $hostName;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="enabled_ssl", type="boolean",  nullable=true)
+     */
+    private $enabledSSL = false;
+
+
+    /**
      * Instance constructor.
      * @param string $instanceType
      */
     public function __construct(string $instanceType)
     {
         if (!InstanceType::isValid($instanceType)) {
-            throw new \UnexpectedValueException("Value '$instanceType' is not a valid Content Type");
+            throw new \UnexpectedValueException("Value '$instanceType' is not a valid Instance Type");
         }
         $this->type = $instanceType;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -97,5 +128,78 @@ abstract class Instance implements InstanceInterface
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicId(): string
+    {
+        return $this->publicId;
+    }
+
+    /**
+     * @param string $publicId
+     * @return Instance
+     */
+    public function setPublicId(?string $publicId): self
+    {
+        $this->publicId = $publicId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrivateId(): ?string
+    {
+        return $this->privateId;
+    }
+
+    /**
+     * @param string $privateId
+     * @return Instance
+     */
+    public function setPrivateId(?string $privateId): self
+    {
+        $this->privateId = $privateId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHostName(): ?string
+    {
+        return $this->hostName;
+    }
+
+    /**
+     * @param string $hostName
+     * @return Instance
+     */
+    public function setHostNameProd(?string $hostName): self
+    {
+        $this->hostName = $hostName;
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isEnabledSSL(): ?bool
+    {
+        return $this->enabledSSL;
+    }
+
+    /**
+     * @param bool $enabledSSL
+     * @return Instance
+     */
+    public function setEnabledSSL(?bool $enabledSSL): self
+    {
+        $this->enabledSSL = $enabledSSL !== null ? $enabledSSL : false;
+        return $this;
     }
 }
