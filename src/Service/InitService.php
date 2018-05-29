@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\EC2;
+use App\Entity\OtherInstance;
 use App\Entity\Subnet;
 use App\Entity\VPC;
 use App\Model\Enum\InstanceState;
@@ -122,24 +123,52 @@ class InitService implements ContainerAwareInterface
     }
 
 
-    public function otherInstance(string $nameFile, bool $prod = true)
+    public function otherInstance(string $nameFile): void
     {
-        dump($this->container->getParameter('kernel.root_dir'));
         $filepath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
         if (!file_exists($filepath)) {
             throw new \UnexpectedValueException(" The file \"'$nameFile'\" doesn't exist");
         }
-        
-        $results = [];
         if (($handle = fopen($filepath, 'r')) !== false) {
+            $i = 0;
             while (($data = fgetcsv($handle, 0, ',')) !== false) {
-                dump($data) or die;
+                if ($i > 0 && is_array($data)) {
+                    $name = current($data);
+                    $instance = $this->em->getRepository(OtherInstance::class)->findOneByName($name);
+                    if (null == $instance) {
+                        [$customer, $serverName, $url, $licence, $sso, $webservice, $provision, $customed, $versionProd, $versionStaging] = $data;
+                        $instance = new OtherInstance();
+                        $instance->setCustomer($customer)
+                            ->setName($serverName)
+                            ->setLicence($licence)
+                            ->setSso($sso == '-' || empty($sso) ? null : $sso)
+                            ->setEnabledWebservice($webservice == 'oui' ? true : false)
+                            ->setEnabledProvision($provision == 'oui' ? true : false)
+                            ->setCustom($customed == 'oui' ? true : false)
+                            ->setMajorProductionVersion(strtoupper($versionProd))
+                            ->setMajorStagingVersion(strtoupper($versionStaging))
+                            ->setPosition(0);
+                        $instance->setState(InstanceState::ENABLE);
+
+
+                        if (filter_var($url, FILTER_VALIDATE_URL)) {
+                            ["scheme" => $scheme, "host" => $host] = parse_url($url);
+                            $instance->setEnabledSSL($scheme == 'https' ?? false);
+                            $instance->setHostName($host);
+                            $ip = gethostbyname($host);
+                            $instance->setPublicId($ip ? $ip : null);
+                        }
+                        $this->em->persist($instance);
+                        if ($i % 10 == 0) {
+                            $this->em->flush();
+                        }
+                    }
+                }
+                $i++;
             }
+            $this->em->flush();
             fclose($handle);
         }
-        die;
-
-
     }
 }
 
