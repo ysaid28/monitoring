@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Traits\SortableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Model\ProjectInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -22,9 +24,32 @@ class Project implements ProjectInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     * @ORM\Column(type="string", name="name", length=255, nullable=true)
      */
     private $name;
+
+    /**
+     * @var array
+     * @ORM\Column(name="tags", type="array")
+     */
+    private $tags;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", name="description", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Instance",
+     *     mappedBy="project",
+     *     cascade={"persist"}
+     *     )
+     */
+    private $instances;
 
     /**
      * Project constructor.
@@ -33,10 +58,11 @@ class Project implements ProjectInterface
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->instances = new ArrayCollection();
     }
 
     /**
-     * @return int | null
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -61,4 +87,83 @@ class Project implements ProjectInterface
 
         return $this;
     }
+
+    /**
+     * @return array|null
+     */
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param array $tags
+     * @return Project
+     */
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     * @return Project
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Instance[]
+     */
+    public function getInstances(): Collection
+    {
+        return $this->instances;
+    }
+
+    /**
+     * @param Instance $instance
+     * @return Project
+     */
+    public function addInstance(Instance $instance): self
+    {
+        if (!$this->instances->contains($instance)) {
+            $this->instances[] = $instance;
+            $instance->setProject($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Instance $instance
+     * @return Project
+     */
+    public function removeInstance(Instance $instance): self
+    {
+        if ($this->instances->contains($instance)) {
+            $this->instances->removeElement($instance);
+            // set the owning side to null (unless already changed)
+            if ($instance->getProject() === $this) {
+                $instance->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

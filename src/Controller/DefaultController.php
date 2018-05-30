@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\EC2;
+use App\Entity\Instance;
+use App\Entity\Project;
 use App\Service\AwsService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,14 +16,11 @@ class DefaultController extends Controller
      */
     public function index()
     {
-        /** @var AwsService $aws */
-        $aws = $this->get('app.aws.service');
-        $aws->addFilters(['Name' => 'develop', 'Env' => "teset"]);
-        $instance= $aws->getInstances(["Name" => "develop", "Env"=> "staeging"]);
-        
-        die('Home Page');
+        $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
         return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
+            'projects' => $projects
         ]);
     }
+
+
 }

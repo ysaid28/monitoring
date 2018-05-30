@@ -33,7 +33,7 @@ class Subnet
     private $ec2s;
 
     /**
-     * Constructor
+     * Subnet constructor.
      */
     public function __construct()
     {
@@ -41,9 +41,9 @@ class Subnet
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -57,21 +57,20 @@ class Subnet
     }
 
     /**
-     * @param null|string $SubnetId
+     * @param null|string $subnetId
      * @return Subnet
      */
-    public function setSubnetId(?string $SubnetId): self
+    public function setSubnetId(?string $subnetId): self
     {
-        $this->subnetId = $SubnetId;
+        $this->subnetId = $subnetId;
 
         return $this;
     }
 
-
     /**
-     * @return Collection
+     * @return Collection|EC2[]
      */
-    public function getEc2s(): ?Collection
+    public function getEc2s(): Collection
     {
         return $this->ec2s;
     }
@@ -80,20 +79,31 @@ class Subnet
      * @param EC2 $ec2
      * @return Subnet
      */
-    public function addEc2s(EC2 $ec2): self
+    public function addEc2(EC2 $ec2): self
     {
-        $this->ec2s[] = $ec2;
+        if (!$this->ec2s->contains($ec2)) {
+            $this->ec2s[] = $ec2;
+            $ec2->setSubnet($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove result
-     *
      * @param EC2 $ec2
+     * @return Subnet
      */
-    public function removeResult(EC2 $ec2): void
+    public function removeEc2(EC2 $ec2): self
     {
-        $this->ec2s->removeElement($ec2);
+        if ($this->ec2s->contains($ec2)) {
+            $this->ec2s->removeElement($ec2);
+            // set the owning side to null (unless already changed)
+            if ($ec2->getSubnet() === $this) {
+                $ec2->setSubnet(null);
+            }
+        }
+
+        return $this;
     }
+    
 }

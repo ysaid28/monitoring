@@ -9,48 +9,66 @@
 {% block body_id %}main{% endblock %}
 
 {% block body_app %}
-    <section>
-        <h4 class="instance instance-title"><i class="fa fa-linux fa-fw"></i>Instances
-            {% if notifies is defined %}
-                <form action="#" autocomplete="off">
-                    <div class="pull-right btn-switch" id="notify_{{ notifies.id }}">
-                        <input
-                                {% if notifies.notify %}
-                                    checked
-                                {% endif %}
-                                class="hide"
-                                id="change_state"
-                                data-size="small"
-                                data-notify-id="{{ notifies.id }}"
-                                data-notify-name="{{ notifies.name }}"
-                                data-on="DÉSACTIVER LA NOTIFICATION" data-off="ACTIVER LA NOTIFICATION"
-                                data-width="230"
-                                data-onstyle="success" data-offstyle="warning"
-                                data-toggle="toggle" type="checkbox"
-                        >
-                    </div>
-                </form>
-            {% endif %}
-        </h4>
 
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Instance ID</th>
-                <th>Nom</th>
-                <th>Status</th>
-                <th>Démarrée le:</th>
-                <th>Zone</th>
-                <th>Private IP</th>
-                <th>Public IP</th>
-                <th>VPC</th>
-                <th>Subnet</th>
-                <th>Logs</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </section>
+    {% if projects is defined and projects %}
+        {% for project in projects %}
+            {{ dump(project) }}
+
+            <section>
+                <h4 class="instance instance-title"><i class="fa fa-linux fa-fw"></i>
+                    {{ project.name | capitalize }}
+                    {% if notifies is defined %}
+                        <form action="#" autocomplete="off">
+                            <div class="pull-right btn-switch" id="notify_{{ notifies.id }}">
+                                <input
+                                        {% if notifies.notify %}
+                                            checked
+                                        {% endif %}
+                                        class="hide"
+                                        id="change_state"
+                                        data-size="small"
+                                        data-notify-id="{{ notifies.id }}"
+                                        data-notify-name="{{ notifies.name }}"
+                                        data-on="DÉSACTIVER LA NOTIFICATION" data-off="ACTIVER LA NOTIFICATION"
+                                        data-width="230"
+                                        data-onstyle="success" data-offstyle="warning"
+                                        data-toggle="toggle" type="checkbox"
+                                >
+                            </div>
+                        </form>
+                    {% endif %}
+                </h4>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Instance ID</th>
+                        <th>Nom</th>
+                        <th>Status</th>
+                        <th>Démarrée le:</th>
+                        <th>Zone</th>
+                        <th>Private IP</th>
+                        <th>Public IP</th>
+                        <th>VPC</th>
+                        <th>Subnet</th>
+                        <th>Logs</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </section>
+
+        {% else %}
+            <div class="container">
+                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="alert alert-warning">
+                        Data Not Found
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}

@@ -69,6 +69,12 @@ abstract class Instance implements InstanceInterface
      * @ORM\Column(name="enabled_ssl", type="boolean",  nullable=true)
      */
     private $enabledSSL = false;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="instances")
+     *
+     */
+    private $project;
 
 
     /**
@@ -133,7 +139,7 @@ abstract class Instance implements InstanceInterface
     /**
      * @return string
      */
-    public function getPublicId(): string
+    public function getPublicId(): ?string
     {
         return $this->publicId;
     }
@@ -178,7 +184,7 @@ abstract class Instance implements InstanceInterface
      * @param string $hostName
      * @return Instance
      */
-    public function setHostNameProd(?string $hostName): self
+    public function setHostName(?string $hostName): self
     {
         $this->hostName = $hostName;
         return $this;
@@ -200,6 +206,30 @@ abstract class Instance implements InstanceInterface
     public function setEnabledSSL(?bool $enabledSSL): self
     {
         $this->enabledSSL = $enabledSSL !== null ? $enabledSSL : false;
+        return $this;
+    }
+
+    public function getEnabledSSL(): ?bool
+    {
+        return $this->enabledSSL;
+    }
+
+    /**
+     * @return Project|null
+     */
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param Project|null $project
+     * @return Instance
+     */
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
         return $this;
     }
 }

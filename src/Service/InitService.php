@@ -11,10 +11,12 @@ namespace App\Service;
 
 use App\Entity\EC2;
 use App\Entity\OtherInstance;
+use App\Entity\Project;
 use App\Entity\Subnet;
 use App\Entity\VPC;
 use App\Model\Enum\InstanceState;
 use App\Model\State;
+use Aws\Api\DateTimeResult;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -60,7 +62,6 @@ class InitService implements ContainerAwareInterface
      */
     public function instanceEC2(array $data): ?EC2
     {
-
         $instanceId = $this->getData($data, 'InstanceId');
         if (empty($instanceId))
             return null;
@@ -71,10 +72,16 @@ class InitService implements ContainerAwareInterface
             $ec2->setInstanceId($instanceId);
         }
         $methods = [
-            'ImageId', 'KeyName', 'LaunchTime', 'PublicIpAddress', 'PrivateIpAddress', 'PublicDnsName', 'PrivateDnsName',
+            'ImageId', 'KeyName', 'PublicIpAddress', 'PrivateIpAddress', 'PublicDnsName', 'PrivateDnsName',
             'StateTransitionReason', 'ClientToken', 'EbsOptimized', 'InstanceType',
             'EnaSupport', 'Hypervisor', 'SourceDestCheck', 'VirtualizationType', 'CpuOptions', 'Architecture'
         ];
+
+        $launchTime = $this->getData($data, 'LaunchTime');
+        if ($launchTime instanceof DateTimeResult) {
+            $ec2->setLaunchTime(new \DateTime($launchTime->format('Y-m-d H:i:s')));
+        }
+
         foreach ($methods as $item) {
             $method = 'set' . $item;
             if (method_exists($ec2, $method)) {
@@ -95,9 +102,7 @@ class InitService implements ContainerAwareInterface
         if ($vpcId) {
             $vpc = $this->em->getRepository(VPC::class)->findOneByVpcId($vpcId);
             if (null === $vpc) {
-                $vpc = (new VPC())
-                    ->setVpcId($vpcId)
-                    ->addEc2s($ec2);
+                $vpc = (new VPC())->setVpcId($vpcId)->addEc2($ec2);
                 $this->em->persist($vpc);
             }
             $ec2->setVpc($vpc);
@@ -106,9 +111,7 @@ class InitService implements ContainerAwareInterface
         if ($subnetId) {
             $subnet = $this->em->getRepository(Subnet::class)->findOneBySubnetId($subnetId);
             if (null === $subnet) {
-                $subnet = (new Subnet())
-                    ->setSubnetId($subnetId)
-                    ->addEc2s($ec2);
+                $subnet = (new Subnet())->setSubnetId($subnetId)->addEc2($ec2);
                 $this->em->persist($subnet);
             }
             $ec2->setSubnet($subnet);
@@ -123,18 +126,21 @@ class InitService implements ContainerAwareInterface
     }
 
 
-    public function otherInstance(string $nameFile): void
+    public function otherInstance(Project $project, string $nameFile): void
     {
         $filepath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
         if (!file_exists($filepath)) {
             throw new \UnexpectedValueException(" The file \"'$nameFile'\" doesn't exist");
+        } else if (empty($project) || !($project instanceof Project)) {
+            throw new \UnexpectedValueException(" Project not found");
         }
+
         if (($handle = fopen($filepath, 'r')) !== false) {
             $i = 0;
             while (($data = fgetcsv($handle, 0, ',')) !== false) {
                 if ($i > 0 && is_array($data)) {
                     $name = current($data);
-                    $instance = $this->em->getRepository(OtherInstance::class)->findOneByName($name);
+                    $instance = $this->em->getRepository(OtherInstance::class)->findOneByCustomer($name);
                     if (null == $instance) {
                         [$customer, $serverName, $url, $licence, $sso, $webservice, $provision, $customed, $versionProd, $versionStaging] = $data;
                         $instance = new OtherInstance();
@@ -149,7 +155,7 @@ class InitService implements ContainerAwareInterface
                             ->setMajorStagingVersion(strtoupper($versionStaging))
                             ->setPosition(0);
                         $instance->setState(InstanceState::ENABLE);
-
+                        $instance->setProject($project);
 
                         if (filter_var($url, FILTER_VALIDATE_URL)) {
                             ["scheme" => $scheme, "host" => $host] = parse_url($url);
@@ -159,6 +165,7 @@ class InitService implements ContainerAwareInterface
                             $instance->setPublicId($ip ? $ip : null);
                         }
                         $this->em->persist($instance);
+                        $project->addInstance($instance);
                         if ($i % 10 == 0) {
                             $this->em->flush();
                         }

@@ -33,37 +33,41 @@ class VPC
     private $ec2s;
 
     /**
-     * Constructor
+     * VPC constructor.
      */
     public function __construct()
     {
         $this->ec2s = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int 
+    public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getVpcId(): ?string
     {
         return $this->vpcId;
     }
 
-    public function setVpcId(string $VpcId): self
+    /**
+     * @param string $vpcId
+     * @return VPC
+     */
+    public function setVpcId(string $vpcId): self
     {
-        $this->vpcId = $VpcId;
+        $this->vpcId = $vpcId;
 
         return $this;
     }
-    
+
     /**
-     * @return Collection
+     * @return Collection|EC2[]
      */
-    public function getEc2s(): ?Collection
+    public function getEc2s(): Collection
     {
         return $this->ec2s;
     }
@@ -72,20 +76,31 @@ class VPC
      * @param EC2 $ec2
      * @return VPC
      */
-    public function addEc2s(EC2 $ec2): self 
+    public function addEc2(EC2 $ec2): self
     {
-        $this->ec2s[] = $ec2;
+        if (!$this->ec2s->contains($ec2)) {
+            $this->ec2s[] = $ec2;
+            $ec2->setVpc($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove result
-     *
      * @param EC2 $ec2
+     * @return VPC
      */
-    public function removeResult(EC2 $ec2): void
+    public function removeEc2(EC2 $ec2): self
     {
-        $this->ec2s->removeElement($ec2);
+        if ($this->ec2s->contains($ec2)) {
+            $this->ec2s->removeElement($ec2);
+            // set the owning side to null (unless already changed)
+            if ($ec2->getVpc() === $this) {
+                $ec2->setVpc(null);
+            }
+        }
+
+        return $this;
     }
+
 }

@@ -18,117 +18,117 @@ class EC2 extends Instance implements EC2Interface
     /**
      * @var string
      *
-     * @ORM\Column(name="image_id", type="string", length=255)
+     * @ORM\Column(name="image_id", type="string", length=255, nullable=true)
      */
     private $imageId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="instance_type", type="string", length=255)
+     * @ORM\Column(name="instance_type", type="string", length=255, nullable=true)
      */
     private $instanceType;
     /**
      * @var string
      *
-     * @ORM\Column(name="key_name", type="string", length=255)
+     * @ORM\Column(name="key_name", type="string", length=255, nullable=true)
      */
     private $keyName;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="launch_time", type="date")
+     * @ORM\Column(name="launch_time", type="date", nullable=true)
      */
     private $launchTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="public_ip_address", type="string", length=255)
+     * @ORM\Column(name="public_ip_address", type="string", length=255, nullable=true)
      */
     private $publicIpAddress;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="public_dns_name", type="string", length=255)
+     * @ORM\Column(name="public_dns_name", type="string", length=255, nullable=true)
      */
     private $publicDnsName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="private_ip_address", type="string", length=255)
+     * @ORM\Column(name="private_ip_address", type="string", length=255, nullable=true)
      */
     private $privateIpAddress;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="private_dns_name", type="string", length=255)
+     * @ORM\Column(name="private_dns_name", type="string", length=255, nullable=true)
      */
     private $privateDnsName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state_transition_reason", type="string", length=255)
+     * @ORM\Column(name="state_transition_reason", type="string", length=255, nullable=true)
      */
     private $stateTransitionReason;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="architecture", type="string", length=255)
+     * @ORM\Column(name="architecture", type="string", length=255, nullable=true)
      */
     private $architecture;
     /**
      * @var string
      *
-     * @ORM\Column(name="client_token", type="string", length=255)
+     * @ORM\Column(name="client_token", type="string", length=255, nullable=true)
      */
     private $clientToken;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ebs_optimized", type="boolean")
+     * @ORM\Column(name="ebs_optimized", type="boolean", nullable=true)
      */
     private $ebsOptimized;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="ena_support", type="boolean")
+     * @ORM\Column(name="ena_support", type="boolean", nullable=true)
      */
     private $enaSupport;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="hypervisor", type="string", length=255)
+     * @ORM\Column(name="hypervisor", type="string", length=255, nullable=true)
      */
     private $hypervisor;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="source_dest_check", type="boolean")
+     * @ORM\Column(name="source_dest_check", type="boolean", nullable=true)
      */
     private $sourceDestCheck;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="virtualization_type", type="string", length=255)
+     * @ORM\Column(name="virtualization_type", type="string", length=255, nullable=true)
      */
     private $virtualizationType;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="cpu_options", type="array")
+     * @ORM\Column(name="cpu_options", type="array", nullable=true)
      */
     private $cpuOptions;
 

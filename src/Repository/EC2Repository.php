@@ -19,6 +19,14 @@ class EC2Repository extends ServiceEntityRepository
         parent::__construct($registry, EC2::class);
     }
 
+    function getInstanceByPosition(string $order = "ASC")
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.position', $order)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return EC2[] Returns an array of EC2 objects
 //     */
