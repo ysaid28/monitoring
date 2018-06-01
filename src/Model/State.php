@@ -6,9 +6,9 @@ interface State
 {
 
     /**
-     * @return int|null
+     * @return int|string
      */
-    public function getState(): ?int;
+    public function getState(): ?string ;
 
     /**
      * @param string|null $state

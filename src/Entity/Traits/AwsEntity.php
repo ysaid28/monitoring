@@ -15,12 +15,12 @@ trait AwsEntity
      *
      * @ORM\Column(name="instance_id", type="string", length=255)
      */
-    private $instanceId;
+    protected $instanceId;
     
     /**
      * @return string
      */
-    public function getInstanceId(): string
+    public function getInstanceId(): ?string
     {
         return $this->instanceId;
     }
@@ -28,7 +28,7 @@ trait AwsEntity
     /**
      * @param string $instanceId
      */
-    public function setInstanceId(string $instanceId): void
+    public function setInstanceId(?string $instanceId): void
     {
         $this->instanceId = $instanceId;
     }

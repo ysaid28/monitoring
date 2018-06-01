@@ -30,51 +30,51 @@ abstract class Instance implements InstanceInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $type;
+    public $type;
 
     /**
      * @var string
      *
      * @ORM\Column(name="public_id", type="string", length=255, nullable=true)
      */
-    private $publicId;
+    protected $publicId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="private_id", type="string", length=255, nullable=true)
      */
-    private $privateId;
+    protected $privateId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="host_name", type="string", length=255, nullable=true)
      */
-    private $hostName;
+    protected $hostName;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="enabled_ssl", type="boolean",  nullable=true)
      */
-    private $enabledSSL = false;
+    protected $enabledSSL = false;
     
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="instances")
      *
      */
-    private $project;
+    protected $project;
 
 
     /**
@@ -122,7 +122,7 @@ abstract class Instance implements InstanceInterface
      * @param string $type
      * @return Instance
      */
-    public function setType(?string $type): Instance
+    public function setType(?string $type): self
     {
         $this->type = $type;
         return $this;
@@ -131,7 +131,7 @@ abstract class Instance implements InstanceInterface
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }

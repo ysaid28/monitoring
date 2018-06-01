@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Project;
 use App\Entity\User;
+use App\Model\Enum\InstanceType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Container\ContainerInterface;
@@ -76,7 +77,7 @@ class AppFixtures extends Fixture
         $project = $manager->getRepository(Project::class)->findOneByName($name);
         if (empty($project) || !($project instanceof Project)) {
             $project = new Project();
-            $project->setName($name)->getTags($tags);
+            $project->setName($name)->setTags($tags)->setType(InstanceType::EC2);
             $manager->persist($project);
         }
         $instances = $this->container->get('app.aws')->getInstanceEc2($tags);
@@ -93,7 +94,7 @@ class AppFixtures extends Fixture
         $project = $manager->getRepository(Project::class)->findOneByName($name);
         if (empty($project) || !($project instanceof Project)) {
             $project = new Project();
-            $project->setName($name)->getTags($tags);
+            $project->setName($name)->setTags($tags)->setType(InstanceType::OTHER);
             $manager->persist($project);
             $manager->flush($project);
         }

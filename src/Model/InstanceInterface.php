@@ -39,5 +39,5 @@ interface InstanceInterface extends Timestampable, Sortable, State
     /**
      * @return string
      */
-    public function getType(): string;
+    public function getType(): ?string;
 }

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\NotifyEntity;
 use App\Entity\Traits\SortableEntity;
+use App\Model\Enum\InstanceType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Project implements ProjectInterface
 {
+    use NotifyEntity;
     use SortableEntity;
     use TimestampableEntity;
     /**
@@ -35,6 +38,12 @@ class Project implements ProjectInterface
      */
     private $tags;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column( name="type", type="string", length=20, nullable=true)
+     */
+    public $type;
 
     /**
      * @var string
@@ -165,5 +174,25 @@ class Project implements ProjectInterface
         return $this;
     }
 
-    
+    /**
+     * @param string $type
+     * @return Project
+     */
+    public function setType(?string $type): self
+    {
+        if (!InstanceType::isValid($type)) {
+            throw new \UnexpectedValueException("Value '$type' is not a valid Instance Type");
+        }
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
 }

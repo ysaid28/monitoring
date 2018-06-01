@@ -14,11 +14,11 @@ interface AWSInterface
     /**
      * @return string
      */
-    public function getInstanceId(): string;
+    public function getInstanceId(): ?string;
     
     /**
      * @param string $instanceId
      */
-    public function setInstanceId(string $instanceId): void;
+    public function setInstanceId(?string $instanceId): void;
 
 }

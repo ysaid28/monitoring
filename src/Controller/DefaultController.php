@@ -16,6 +16,10 @@ class DefaultController extends Controller
      */
     public function index()
     {
+
+//        $instances = $this->get('app.aws')->getInstanceEc2(["Env" => "staging"]);
+//        dump($instances) or die;
+
         $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
         return $this->render('default/index.html.twig', [
             'projects' => $projects

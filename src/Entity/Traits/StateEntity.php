@@ -13,7 +13,7 @@ trait StateEntity
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $state;
+    protected $state;
 
     /**
      * @param mixed $state
@@ -27,9 +27,9 @@ trait StateEntity
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getState(): ?int
+    public function getState(): ?string
     {
         return $this->state;
     }

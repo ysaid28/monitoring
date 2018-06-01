@@ -12,24 +12,24 @@ use Doctrine\ORM\Mapping as ORM;
 trait NotifyEntity
 {
     /**
-     * @ORM\Column(type="boolean", name="enable", nullable=true)
+     * @ORM\Column(type="boolean", name="enable_notify", nullable=true)
      */
-    private $enable = true;
+    protected $enableNotify = true;
 
     /**
      * @return bool
      */
-    public function getEnable(): bool
+    public function isEnableNotify(): ?bool
     {
-        return $this->enable;
+        return $this->enableNotify;
     }
 
     /**
      * @param mixed $enable
      */
-    public function setEnable($enable): void
+    public function setEnableNotify(?bool $enable): void
     {
-        $this->enable = $enable;
+        $this->enableNotify = $enable;
     }
     
 }

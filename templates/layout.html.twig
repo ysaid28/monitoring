@@ -1,70 +1,80 @@
 {% extends 'base.html.twig' %}
 {% block body_id 'main' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/main.css') }}">
+
+{% endblock %}
+
 {% block header %}
     {% if app.user is defined and app.user %}
         {% set routeName = app.request.get('_route') %}
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="#">AWS <span class="text">Management</span></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li {% if routeName == 'home_page' %}
-                    class="active" {% endif %}>
-                    <a href="{{ path('home_page') }}"><i class="fa fa-home"></i></a></li>
-                <li><a href="#about">Instances</a></li>
-                <li><a href="#contact">Services</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">Autres <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">AWS <span class="text">Management</span></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li {% if routeName == 'home_page' %}
+                            class="active" {% endif %}>
+                            <a href="{{ path('home_page') }}"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#about">Instances</a></li>
+                        <li><a href="#contact">Certificates</a></li>
+                        <li><a href="#contact">Backup</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">Autres <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="https://github.com/upro">Github</a></li>
+                                <li><a href="https://www.gitbook.com/@u-pro/teams">Gitbook</a></li>
+                                <li><a href="">Lastpass</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="https://redmine.u-pro.fr">Redmine</a></li>
+                                <li><a href="https://app.asana.com/-/login">Asanat</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
 
-                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                    <a id="aws_refresh"
-                       href="{{ path('home_page') }}" class="">
-                        <i class="fa fa-code fa-fw"></i>
-                        Crontab</a>
-                </li>
-                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                    <a id="aws_refresh" href="{{ path('home_page') }}" class="active"><i
-                                class="fa fa-link fa-fw"></i>
-                        URL</a>
-                </li>
-                <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                    <a id="aws_logs" class="spec-button"
-                       href="{{ path('home_page') }}"
-                       title="Log"> <i class="fa fa-terminal"></i> Log </a>
-                </li>
-                <li>
-                    <a class="spec-button"
-                       href="{{ path('security_logout') }}"
-                       title="Déconnexion"> <i class="fa fa-power-off"></i> </a>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
-{% endif %}
+                        <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                            <a id="aws_refresh"
+                               href="{{ path('home_page') }}" class=""><i class="fa fa-bell fa-fw"></i></a>
+                        </li>
+                        <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                            <a id="aws_refresh"
+                               href="{{ path('home_page') }}" class="">
+                                <i class="fa fa-code fa-fw"></i>
+                                Crontab</a>
+                        </li>
+                        <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                            <a id="aws_refresh" href="{{ path('home_page') }}" class="active"><i
+                                        class="fa fa-link fa-fw"></i>
+                                URL</a>
+                        </li>
+                        <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                            <a id="aws_logs" class="spec-button"
+                               href="{{ path('home_page') }}"
+                               title="Log"> <i class="fa fa-terminal"></i> Log </a>
+                        </li>
+                        <li>
+                            <a class="spec-button"
+                               href="{{ path('security_logout') }}"
+                               title="Déconnexion"> <i class="fa fa-power-off"></i> </a>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    {% endif %}
 
 
 {% endblock %}
@@ -90,4 +100,9 @@
         </footer>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/main.js') }}"></script>
 {% endblock %}
