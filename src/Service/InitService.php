@@ -18,6 +18,7 @@ use App\Model\Enum\InstanceState;
 use App\Model\State;
 use Aws\Api\DateTimeResult;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -36,9 +37,10 @@ class InitService implements ContainerAwareInterface
 
     /**
      * InitService constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
+     * @param ContainerInterface $container
      */
-    public function __construct(EntityManager $entityManager, ContainerInterface $container)
+    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container)
     {
         $this->em = $entityManager;
         $this->container = $container;
@@ -98,6 +100,7 @@ class InitService implements ContainerAwareInterface
         }
 
         $ec2->setState(isset($data["State"]["Name"]) ? strtolower($data["State"]["Name"]) : InstanceState::UNKNOWN);
+        $ec2->setEnabled(true);
         $vpcId = $this->getData($data, 'VpcId');
         if ($vpcId) {
             $vpc = $this->em->getRepository(VPC::class)->findOneByVpcId($vpcId);
@@ -155,6 +158,7 @@ class InitService implements ContainerAwareInterface
                             ->setMajorStagingVersion(strtoupper($versionStaging))
                             ->setPosition(0);
                         $instance->setState(InstanceState::ENABLE);
+                        $instance->setEnabled(true);
                         $instance->setProject($project);
 
                         if (filter_var($url, FILTER_VALIDATE_URL)) {
@@ -178,66 +182,3 @@ class InitService implements ContainerAwareInterface
         }
     }
 }
-
-
-
-/*
- *   [ 
-  0 =>   [ 
-    "AmiLaunchIndex" => 0
-    "ImageId" => "ami-8ee056f3"
-    "InstanceId" => "i-02fd0dbb76cb58a57"
-    "InstanceType" => "t2.micro"
-    "KeyName" => "ys-dev"
-    "LaunchTime" => DateTimeResult @1524148776 {#295  
-      date: 2018-04-19 14:39:36.0 +00:00
-    }
-    "Monitoring" =>   [ 
-      "State" => "disabled"
-    ]
-    "Placement" =>    [ 
-      "AvailabilityZone" => "eu-west-3c"
-      "GroupName" => ""
-      "Tenancy" => "default"
-    ]
-    "PrivateDnsName" => "ip-172-31-42-155.eu-west-3.compute.internal"
-    "PrivateIpAddress" => "172.31.42.155"
-    "ProductCodes" => []
-    "PublicDnsName" => ""
-    "State" =>    [ 
-      "Code" => 80
-      "Name" => "stopped"
-    ]
-    "StateTransitionReason" => "User initiated (2018-04-19 14:40:50 GMT)"
-    "SubnetId" => "subnet-38938f72"
-    "VpcId" => "vpc-c73e98ae"
-    "Architecture" => "x86_64"
-    "BlockDeviceMappings" =>   [ 
-      0 =>    [ 
-        "DeviceName" => "/dev/xvda"
-        "Ebs" => array:4 [ 
-          "AttachTime" => DateTimeResult @1518775278 {#357 ▶}
-          "DeleteOnTermination" => true
-          "Status" => "attached"
-          "VolumeId" => "vol-05a5052127c9c468c"
-        ]
-      ]
-    ]
-    "ClientToken" => ""
-    "EbsOptimized" => false
-    "EnaSupport" => true
-    "Hypervisor" => "xen"
-    "NetworkInterfaces" =>   [▶]
-    "RootDeviceName" => "/dev/xvda"
-    "RootDeviceType" => "ebs"
-    "SecurityGroups" =>   [▶]
-    "SourceDestCheck" => true
-    "StateReason" =>    [▶]
-    "Tags" =>    [▶]
-    "VirtualizationType" => "hvm"
-    "CpuOptions" =>    [ 
-      "CoreCount" => 1
-      "ThreadsPerCore" => 1
-    ]
-  ]
-]*/

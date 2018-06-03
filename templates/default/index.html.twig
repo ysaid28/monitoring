@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %} Connexion | {{ parent() }} {% endblock %}
+{% block title %} Home | {{ parent() }} {% endblock %}
 
 {% block body_id %}main{% endblock %}
 
@@ -15,17 +15,16 @@
 
     {% if projects is defined and projects %}
         {% for project in projects %}
-            {#{{ dump(project) }}#}
             <section>
                 <h4 class="instance instance-title"><i class="fa fa-linux fa-fw"></i>
                     {{ project.name | capitalize }}
                     <form action="#" autocomplete="off">
-                        <div class="pull-right btn-switch" id="notify_{{ project.id }}">
+                        <div class="pull-right hide btn-switch" id="notify_{{ project.id }}">
                             <input
                                     {% if project.isEnableNotify == true %}
                                         checked
                                     {% endif %}
-                                    {#class="hide"#}
+                                    class="hide"
                                     id="change_state"
                                     data-size="small"
                                     data-notify-id="{{ project.id }}"
@@ -38,6 +37,7 @@
                         </div>
                     </form>
                 </h4>
+
                 {% if project.instances is not null %}
                     <table class="table table-hover table-instance" id="table-instance">
                         {% if project.type =="ec2" %}
@@ -47,6 +47,7 @@
                                 <th>Instance ID</th>
                                 <th>Name</th>
                                 <th>Status</th>
+                                <th>Enabled</th>
                                 <th>Started</th>
                                 <th>Private IP</th>
                                 <th>Public IP</th>
@@ -57,7 +58,6 @@
                             </thead>
                             <tbody>
                             {% for instance in project.instances if instance.instanceId is defined %}
-                                {#{{ dump(instance) }}#}
                                 <tr>
                                     <td><a data-toggle="collapse" href="#collapse-{{ instance.id }}"
                                            id="btn-collapse-{{ instance.id }}"
@@ -86,6 +86,16 @@
                                             <i class="fa fa-circle fa-fw text-warning"
                                                aria-hidden="true"></i>{{ instance.state | capitalize }}
 
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if instance.enabled %}
+                                            <span class="label label-success"
+                                                  aria-hidden="true"> Yes</span>
+
+                                        {% else %}
+                                            <span class="label label-danger"
+                                            > No</span>{#{{ instance.enabled | capitalize }}#}
                                         {% endif %}
                                     </td>
                                     <td>
@@ -125,9 +135,14 @@
                                     </td>
                                     <td>
                                         <a href="#"
-                                           class=" btn btn-xs btn-block btn-default">
+                                           class=" btn btn-xs btn-default">
                                             <i class="fa fa-search fa-fw"></i>
-                                            Voir logs
+                                           Logs
+                                        </a>
+                                        <a href="#"
+                                           class=" btn btn-xs btn-default">
+                                            <i class="fa fa-search fa-fw"></i>
+                                            Enabled
                                         </a>
                                     </td>
                                 </tr>
@@ -150,6 +165,17 @@
                                                     <i class="fa fa-circle fa-fw text-warning"
                                                        aria-hidden="true"></i>{{ instance.state | capitalize }}
 
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Enabled</dt>
+                                            <dd>
+                                                {% if instance.enabled is defined and instance.enabled %}
+                                                    <span class="label label-success"
+                                                          aria-hidden="true"> Yes</span>
+
+                                                {% else %}
+                                                    <span class="label label-danger"
+                                                    > No</span>
                                                 {% endif %}
                                             </dd>
 
@@ -299,6 +325,7 @@
                                 <th>Customer</th>
                                 <th>Nom</th>
                                 <th>Status</th>
+                                <th>Enabled</th>
                                 <th>Private IP</th>
                                 <th>Public IP</th>
                                 <th>Host Name</th>
@@ -306,7 +333,6 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             {% for instance in project.instances %}
                                 <tr>
                                     <td>
@@ -343,6 +369,17 @@
                                         {% endif %}
                                     </td>
                                     <td>
+                                        {% if instance.enabled %}
+                                            <span class="label label-success"
+                                                  aria-hidden="true"> Yes</span>
+
+                                        {% else %}
+                                            <span class="label label-danger"
+                                            > No</span>{#{{ instance.enabled | capitalize }}#}
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
                                         {% if instance.privateId is defined and instance.privateId %}
                                             {{ instance.privateId }}
                                         {% else %}
@@ -376,6 +413,7 @@
                             {% endfor %}
                             </tbody>
                         {% else %}
+                            Other instance: RDS; CloudFront ...
                         {% endif %}
                     </table>
                 {% endif %}

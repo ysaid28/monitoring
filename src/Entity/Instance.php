@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\EnabledEntity;
 use App\Entity\Traits\SortableEntity;
 use App\Entity\Traits\StateEntity;
 use App\Model\Enum\InstanceType;
@@ -23,6 +24,7 @@ abstract class Instance implements InstanceInterface
 {
     use SortableEntity;
     use StateEntity;
+    use EnabledEntity;
     use TimestampableEntity;
 
     /**

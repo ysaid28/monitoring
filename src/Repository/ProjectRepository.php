@@ -19,32 +19,34 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-//    /**
-//     * @return Project[] Returns an array of Project objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Project
+    /**
+     * @param bool $notify
+     * @param bool|null $enabled
+     * @param string $sort
+     * @param int $page
+     * @param int|null $max
+     * @return Project[] Returns an array of Project objects
+     */
+    public function getProjects(?bool $notify = true, ?bool $enabled = true, ?string $sort = 'ASC', ?int $page = 0, ?int $max = null)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        // Faudra exclure les private
+        $req = $this->createQueryBuilder('p')
+            ->join('p.instances', 'i')
+            ->where('p.enableNotify = :notify')
+            ->andWhere('i.enabled = :enabled')
+            ->setParameter('notify', $notify)
+            ->setParameter('enabled', $enabled)
+            ->orderBy('p.position', in_array(strtoupper($sort), ['ASC', 'DESC']) ? $sort : 'ASC');
+        if ($max) {
+            $req = $req->getQuery()
+                ->setMaxResults($max)
+                ->setFirstResult($page * $max);
+        } else {
+            $req = $req->getQuery();
+        }
+
+        return $req->getResult();
     }
-    */
+
 }

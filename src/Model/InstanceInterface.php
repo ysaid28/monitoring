@@ -10,7 +10,7 @@ namespace App\Model;
 
 use App\Entity\Instance;
 
-interface InstanceInterface extends Timestampable, Sortable, State
+interface InstanceInterface extends  Sortable, State, Enabled, Timestampable
 {
 
     /**
