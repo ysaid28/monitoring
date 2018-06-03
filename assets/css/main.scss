@@ -59,7 +59,7 @@
 
 /*** Main ****/
 #main {
-    margin-top: 50px;
+    margin-top: 60px;
     .instance {
         position: relative;
         color: $link-color;
@@ -110,6 +110,19 @@
         top: 0;
         bottom: 0;
         padding: 5px;
+    }
+
+    .td-collapse {
+
+    }
+
+    dl {
+        margin-left: 150px;
+    }
+    .table-dl-horizontal {
+        dd, dt {
+            line-height: 1.5;
+        }
     }
 }
 

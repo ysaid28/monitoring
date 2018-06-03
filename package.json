@@ -21,6 +21,9 @@
         "build": "encore production"
     },
     "dependencies": {
-        "bootstrap-toggle": "^2.2.2"
+        "bootstrap-toggle": "^2.2.2",
+        "datatables.net": "^1.10.16",
+        "datatables.net-autofill-jqui": "^2.2.2",
+        "datatables.net-bs": "^1.10.16"
     }
 }

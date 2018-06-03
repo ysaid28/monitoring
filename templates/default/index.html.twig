@@ -33,13 +33,13 @@
                                     data-on="ENABLE NOTIFICATION" data-off="DISABLE NOTIFICATION"
                                     data-width="180"
                                     data-onstyle="success" data-offstyle="default"
-                                    data-toggle="toggle" type="checkbox"
-                            >
+                                    data-toggle="toggle"
+                                    type="checkbox">
                         </div>
                     </form>
                 </h4>
                 {% if project.instances is not null %}
-                    <table class="table table-hover">
+                    <table class="table table-hover table-instance" id="table-instance">
                         {% if project.type =="ec2" %}
                             <thead>
                             <tr>
@@ -59,8 +59,8 @@
                             {% for instance in project.instances if instance.instanceId is defined %}
                                 {#{{ dump(instance) }}#}
                                 <tr>
-                                    <td><a data-toggle="collapse" href="#instance-{{ instance.id }}"
-                                           id="btn-{{ instance.id }}"
+                                    <td><a data-toggle="collapse" href="#collapse-{{ instance.id }}"
+                                           id="btn-collapse-{{ instance.id }}"
                                            aria-expanded="false"
                                            aria-controls="{{ instance.id }}"><i
                                                     class="fa fa-plus-circle"></i></a>
@@ -74,7 +74,7 @@
                                     </td>
                                     <td>{{ instance.name }}</td>
                                     <td>
-                                        {% if instance.state =="" %}
+                                        {% if instance.state =="enable" %}
                                             <i class="fa fa-circle fa-fw text-success"
                                                aria-hidden="true"></i>{{ instance.state | capitalize }}
 
@@ -131,10 +131,158 @@
                                         </a>
                                     </td>
                                 </tr>
-                                <tr id="instance-{{ instance.id }}" class="collapse">
+                                <tr id="collapse-{{ instance.id }}" class="collapse">
                                     <td class="td-collapse" colspan="6">
+                                        <dl class="dl-horizontal table-dl-horizontal">
+                                            <dt>ID d'instance</dt>
+                                            <dd>{{ instance.instanceId }}</dd>
+                                            <dt>État de l'instance</dt>
+                                            <dd>
+                                                {% if instance.state =="enable" %}
+                                                    <i class="fa fa-circle fa-fw text-success"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% elseif instance.state =="stopped" %}
+                                                    <i class="fa fa-circle fa-fw text-danger"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% else %}
+                                                    <i class="fa fa-circle fa-fw text-warning"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% endif %}
+                                            </dd>
+
+                                            <dt>Type d'instance</dt>
+                                            <dd>{{ instance.instanceType }}</dd>
+
+                                            <dt>Public IP (EIP)</dt>
+                                            <dd>
+                                                {% if instance.publicIpAddress is defined %}
+                                                    {{ instance.publicIpAddress }}
+                                                {% endif %}
+                                            </dd>
+
+                                            <dt>Private IP</dt>
+                                            <dd>
+                                                {% if instance.privateIpAddress is defined %}
+                                                    {{ instance.privateIpAddress }}
+                                                {% endif %}
+                                            </dt>
+
+                                            <dt>Groupes de sécurité</dt>
+                                            <dd>
+                                                <ul class="list-unstyled">
+                                                    {% if instance.securityGroups is defined %}
+                                                        {% for security in instance.securityGroups %}
+                                                            <li>{{ security.GroupName }} ({{ security.GroupId }})</li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </dd>
+                                            <dt>ID d'AMI</dt>
+                                            <dd>
+                                                {% if instance.imageId is defined %}
+                                                    {{ instance.imageId }}
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Rôle IAM</dt>
+                                            <dd>
+                                                {% if instance.iamInstanceProfile is defined and instance.iamInstanceProfile.Arn is defined %}
+                                                    {{ instance.iamInstanceProfile.Arn }}
+                                                {% endif %}
+                                            </dd>
+
+                                            <dt>Nom de la paire de clés</dt>
+                                            <dd>
+                                                {% if instance.keyName is defined %}
+                                                    {{ instance.keyName }}
+                                                {% endif %}
+                                            </dd>
+
+                                            {% if instance.ebsOptimized is defined %}
+                                                <dt>Optimisé pour EBS</dt>
+                                                <dd>
+                                                    {% if instance.ebsOptimized is defined  and instance.ebsOptimized %}
+                                                        OUI
+                                                    {% else %}
+                                                        NON
+                                                    {% endif %}
+                                                </dd>
+                                            {% endif %}
+
+                                            {% if instance.rootDeviceType is defined %}
+                                                <dt>Type de périphérique racine</dt>
+                                                <dd>{{ instance.rootDeviceType }}</dd>
+                                            {% endif %}
+
+                                            {% if instance.rootDeviceType is defined %}
+
+                                                <dt>Périphérique racine</dt>
+                                                <dd>{{ instance.rootDeviceName }}</dd>
+                                            {% endif %}
+
+                                            {% if instance.blockDeviceMappings is defined %}
+                                                <dt>Périphériques de stockage en mode bloc</dt>
+                                                <dd>
+                                                    {% if instance.blockDeviceMappings is defined and instance.blockDeviceMappings %}
+                                                        <ul class="list-unstyled">
+                                                            {% for block in instance.blockDeviceMappings %}
+                                                                <li>{{ block.DeviceName }}</li>
+                                                                {% if loop.index<loop.last %}
+                                                                    <li> -</li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </ul>
+
+                                                    {% endif %}
+
+                                                </dd>
+                                            {% endif %}
+
+                                        </dl>
                                     </td>
-                                    <td class="td-collapse" colspan="5">
+                                    <td class="td-collapse" colspan="6">
+                                        <dl class="dl-horizontal table-dl-horizontal">
+                                            {% if instance.publicDnsName is defined %}
+                                                <dt>DNS public (IPv4)</dt>
+                                                <dd>{{ instance.publicDnsName }}</dd>
+                                            {% endif %}
+
+                                            {% if instance.publicIpAddress is defined %}
+                                                <dt>IP publique IPv4</dt>
+                                                <dd>{{ instance.publicIpAddress }}</dd>
+                                            {% endif %}
+
+                                            {% if instance.privateDnsName is defined %}
+                                                <dt>Private DNS</dt>
+                                                <dd>{{ instance.privateDnsName }}</dd>
+                                            {% endif %}
+                                            {% if instance.privateIp is defined %}
+                                                <dt>IP privées</dt>
+                                                <dd>{{ instance.privateIp }}</dd>
+                                            {% endif %}
+
+                                            {% if instance.vpc is defined %}
+                                                <dt>ID de VPC</dt>
+                                                <dd><a href="#">{{ instance.vpc.vpcId }}</a></dd>
+                                            {% endif %}
+                                            {% if instance.subnet is defined %}
+                                                <dt>ID de sous-réseau</dt>
+                                                <dd><a href="#">{{ instance.subnet.subnetId }}</a></dd>
+                                            {% endif %}
+
+                                            {% if instance.subnet is defined %}
+                                                <dt>Contrôle de la source / dest</dt>
+                                                <dd>
+                                                    {% if instance.subnet %}
+                                                        OUI
+                                                    {% else %}
+                                                        NON
+                                                    {% endif %}
+                                                </dd>
+                                            {% endif %}
+                                        </dl>
                                     </td>
                                 </tr>
 
@@ -170,13 +318,17 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{ instance.customer }}
+                                        {% if instance.customer is defined and instance.customer %}
+                                            {{ instance.customer }}
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        {{ instance.name }}
+                                        {% if instance.name is defined and instance.name %}
+                                            {{ instance.name }}
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        {% if instance.state =="running" %}
+                                        {% if instance.state =="enable" %}
                                             <i class="fa fa-circle fa-fw text-success"
                                                aria-hidden="true"></i>{{ instance.state | capitalize }}
 
