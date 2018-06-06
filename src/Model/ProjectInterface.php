@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-interface ProjectInterface extends Timestampable, Sortable, Notify
+interface ProjectInterface extends Timestampable, Sortable, Notification
 {
     
 }

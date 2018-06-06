@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\NotifyEntity;
+use App\Entity\Traits\NotificationEntity;
 use App\Entity\Traits\SortableEntity;
 use App\Model\Enum\InstanceType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +16,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Project implements ProjectInterface
 {
-    use NotifyEntity;
+    use NotificationEntity;
     use SortableEntity;
     use TimestampableEntity;
     /**

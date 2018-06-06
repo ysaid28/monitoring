@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\EnabledEntity;
+use App\Entity\Traits\NotificationEntity;
 use App\Entity\Traits\SortableEntity;
 use App\Entity\Traits\StateEntity;
 use App\Model\Enum\InstanceType;
@@ -26,6 +27,7 @@ abstract class Instance implements InstanceInterface
     use StateEntity;
     use EnabledEntity;
     use TimestampableEntity;
+    use NotificationEntity;
 
     /**
      * @ORM\Id()

@@ -101,6 +101,8 @@ class InitService implements ContainerAwareInterface
 
         $ec2->setState(isset($data["State"]["Name"]) ? strtolower($data["State"]["Name"]) : InstanceState::UNKNOWN);
         $ec2->setEnabled(true);
+        $ec2->setEnabledNotification(true);
+
         $vpcId = $this->getData($data, 'VpcId');
         if ($vpcId) {
             $vpc = $this->em->getRepository(VPC::class)->findOneByVpcId($vpcId);
@@ -159,6 +161,7 @@ class InitService implements ContainerAwareInterface
                             ->setPosition(0);
                         $instance->setState(InstanceState::ENABLE);
                         $instance->setEnabled(true);
+                        $instance->setEnabledNotification(true);
                         $instance->setProject($project);
 
                         if (filter_var($url, FILTER_VALIDATE_URL)) {
