@@ -9,6 +9,9 @@
 namespace App\Model;
 
 
+use App\Entity\Subnet;
+use App\Entity\VPC;
+
 interface EC2Interface extends AWSInterface
 {
 
