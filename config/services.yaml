@@ -37,7 +37,7 @@ services:
     app.notifier.service:
         class: App\Service\NotifierService
         public: true
-        arguments: ['@doctrine.orm.entity_manager', '@aws.sns']
+        arguments: ['@service_container', '@aws.sns']
         
     app.service.tester:
         class: App\Service\ServiceTester
