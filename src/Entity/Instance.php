@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Traits\EnabledEntity;
+use App\Entity\Traits\NotificationEntity;
 use App\Entity\Traits\SortableEntity;
 use App\Entity\Traits\StateEntity;
 use App\Model\Enum\InstanceType;
@@ -26,6 +27,7 @@ abstract class Instance implements InstanceInterface
     use StateEntity;
     use EnabledEntity;
     use TimestampableEntity;
+    use NotificationEntity;
 
     /**
      * @ORM\Id()
@@ -93,8 +95,9 @@ abstract class Instance implements InstanceInterface
         $this->updatedAt = new \DateTime();
     }
 
+
     /**
-     * @return int
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -131,7 +134,7 @@ abstract class Instance implements InstanceInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getType(): ?string
     {
@@ -139,7 +142,7 @@ abstract class Instance implements InstanceInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPublicId(): ?string
     {
@@ -147,7 +150,7 @@ abstract class Instance implements InstanceInterface
     }
 
     /**
-     * @param string $publicId
+     * @param null|string $publicId
      * @return Instance
      */
     public function setPublicId(?string $publicId): self
@@ -155,17 +158,17 @@ abstract class Instance implements InstanceInterface
         $this->publicId = $publicId;
         return $this;
     }
-
+    
     /**
-     * @return string
+     * @return null|string
      */
     public function getPrivateId(): ?string
     {
         return $this->privateId;
     }
-
+    
     /**
-     * @param string $privateId
+     * @param null|string $privateId
      * @return Instance
      */
     public function setPrivateId(?string $privateId): self
@@ -173,17 +176,17 @@ abstract class Instance implements InstanceInterface
         $this->privateId = $privateId;
         return $this;
     }
-
+    
     /**
-     * @return string
+     * @return null|string
      */
     public function getHostName(): ?string
     {
         return $this->hostName;
     }
-
+    
     /**
-     * @param string $hostName
+     * @param null|string $hostName
      * @return Instance
      */
     public function setHostName(?string $hostName): self
@@ -191,18 +194,17 @@ abstract class Instance implements InstanceInterface
         $this->hostName = $hostName;
         return $this;
     }
-
-
+    
     /**
-     * @return bool
+     * @return bool|null
      */
     public function isEnabledSSL(): ?bool
     {
         return $this->enabledSSL;
     }
-
+    
     /**
-     * @param bool $enabledSSL
+     * @param bool|null $enabledSSL
      * @return Instance
      */
     public function setEnabledSSL(?bool $enabledSSL): self
@@ -211,6 +213,9 @@ abstract class Instance implements InstanceInterface
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function getEnabledSSL(): ?bool
     {
         return $this->enabledSSL;
@@ -231,7 +236,6 @@ abstract class Instance implements InstanceInterface
     public function setProject(?Project $project): self
     {
         $this->project = $project;
-
         return $this;
     }
 }

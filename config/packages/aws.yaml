@@ -2,6 +2,8 @@ parameters:
     region: '%env(AWS_REGION)%'
     aws_key: '%env(AWS_KEY)%'
     aws_secret: '%env(AWS_SECRET)%'
+    aws_sns_arn: '%env(AWS_SNS_ARN)%'
+    aws_sns_arn_dev: '%env(AWS_SNS_ARN_DEV)%'
 
 aws:
     version: latest

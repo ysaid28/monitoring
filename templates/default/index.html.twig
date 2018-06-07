@@ -21,7 +21,7 @@
                     <form action="#" autocomplete="off">
                         <div class="pull-right hide btn-switch" id="notify_{{ project.id }}">
                             <input
-                                    {% if project.isEnableNotify == true %}
+                                    {% if project.isNotified == true %}
                                         checked
                                     {% endif %}
                                     class="hide"

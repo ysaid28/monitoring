@@ -153,7 +153,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getImageId(): ?string
     {
@@ -161,7 +161,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @param string $imageId
+     * @param null|string $imageId
      */
     public function setImageId(?string $imageId): void
     {
@@ -169,7 +169,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getInstanceType(): ?string
     {
@@ -185,7 +185,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getKeyName(): ?string
     {
@@ -207,9 +207,9 @@ class EC2 extends Instance implements EC2Interface
     {
         return $this->launchTime;
     }
-
+    
     /**
-     * @param \DateTime $launchTime
+     * @param \DateTime|null $launchTime
      */
     public function setLaunchTime(?\DateTime $launchTime): void
     {
@@ -217,7 +217,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPublicDnsName(): ?string
     {
@@ -233,7 +233,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPrivateIpAddress(): ?string
     {
@@ -241,7 +241,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @param string $privateIpAddress
+     * @param null|string $privateIpAddress
      */
     public function setPrivateIpAddress(?string $privateIpAddress): void
     {
@@ -252,7 +252,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPrivateDnsName(): ?string
     {
@@ -266,9 +266,9 @@ class EC2 extends Instance implements EC2Interface
     {
         $this->privateDnsName = $privateDnsName;
     }
-
+    
     /**
-     * @return string
+     * @return null|string
      */
     public function getStateTransitionReason(): ?string
     {
@@ -276,15 +276,15 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @param string $stateTransitionReason
+     * @param null|string $stateTransitionReason
      */
     public function setStateTransitionReason(?string $stateTransitionReason): void
     {
         $this->stateTransitionReason = $stateTransitionReason;
     }
-
+    
     /**
-     * @return string
+     * @return null|string
      */
     public function getArchitecture(): ?string
     {
@@ -300,7 +300,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getClientToken(): ?string
     {
@@ -316,9 +316,9 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return bool
+     * @return null| bool
      */
-    public function isEbsOptimized(): bool
+    public function isEbsOptimized(): ?bool
     {
         return $this->ebsOptimized;
     }
@@ -332,9 +332,9 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return bool
+     * @return null| bool
      */
-    public function isEnaSupport(): bool
+    public function isEnaSupport(): ?bool
     {
         return $this->enaSupport;
     }
@@ -348,7 +348,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getHypervisor(): ?string
     {
@@ -364,9 +364,9 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isSourceDestCheck(): bool
+    public function isSourceDestCheck(): ?bool
     {
         return $this->sourceDestCheck;
     }
@@ -388,7 +388,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @param string $virtualizationType
+     * @param string null|$virtualizationType
      */
     public function setVirtualizationType(?string $virtualizationType): void
     {
@@ -396,23 +396,24 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @return array
+     * @return null|array
      */
-    public function getCpuOptions(): array
+    public function getCpuOptions(): ?array
     {
         return $this->cpuOptions;
     }
 
+
     /**
-     * @param array $cpuOptions
+     * @param array|null $cpuOptions
      */
     public function setCpuOptions(?array $cpuOptions): void
     {
         $this->cpuOptions = $cpuOptions;
     }
-
+    
     /**
-     * @return VPC
+     * @return VPC|null
      */
     public function getVpc(): ?VPC
     {
@@ -444,9 +445,9 @@ class EC2 extends Instance implements EC2Interface
     {
         $this->subnet = $subnet;
     }
-
+    
     /**
-     * @return string
+     * @return null|string
      */
     public function getPublicIpAddress(): ?string
     {
@@ -454,7 +455,7 @@ class EC2 extends Instance implements EC2Interface
     }
 
     /**
-     * @param string $publicIpAddress
+     * @param null|string $publicIpAddress
      */
     public function setPublicIpAddress(?string $publicIpAddress): void
     {
@@ -463,7 +464,10 @@ class EC2 extends Instance implements EC2Interface
         }
         $this->publicIpAddress = $publicIpAddress;
     }
-    
+
+    /**
+     * @return null|string
+     */
     public function getType(): ?string
     {
         return parent::getType(); // TODO: Change the autogenerated stubé"

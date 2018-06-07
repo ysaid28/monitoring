@@ -31,6 +31,8 @@ class AppFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function load(ObjectManager $manager): void
     {
@@ -72,6 +74,11 @@ class AppFixtures extends Fixture
         ];
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     private function loadInstances(ObjectManager $manager): void
     {
         $name = 'AWS';
@@ -82,7 +89,7 @@ class AppFixtures extends Fixture
             $project->setName($name)
                 ->setTags($tags)
                 ->setType(InstanceType::EC2);
-            $project->setEnableNotify(true);
+            $project->setEnabledNotification(true);
             $project->setPosition(2);
             $manager->persist($project);
         }
@@ -103,7 +110,7 @@ class AppFixtures extends Fixture
             $project->setName($name)
                 ->setTags($tags)
                 ->setType(InstanceType::OTHER);
-            $project->setEnableNotify(true);
+            $project->setEnabledNotification(true);
             $project->setPosition(2);
             $manager->persist($project);
             $manager->flush($project);

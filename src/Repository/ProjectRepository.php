@@ -33,7 +33,7 @@ class ProjectRepository extends ServiceEntityRepository
         // Faudra exclure les private
         $req = $this->createQueryBuilder('p')
             ->join('p.instances', 'i')
-            ->where('p.enableNotify = :notify')
+            ->where('p.enabledNotification = :notify')
             ->andWhere('i.enabled = :enabled')
             ->setParameter('notify', $notify)
             ->setParameter('enabled', $enabled)

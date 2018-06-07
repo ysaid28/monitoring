@@ -29,9 +29,19 @@ services:
         class: App\Service\InitService
         public: true
         arguments: ['@doctrine.orm.entity_manager', '@service_container']
+        
+    app.url.tester:
+        class: App\Service\UrlTester
+        public: true
     
+    app.notifier.service:
+        class: App\Service\NotifierService
+        public: true
+        arguments: ['@doctrine.orm.entity_manager', '@aws.sns']
+        
     app.service.tester:
         class: App\Service\ServiceTester
         public: true
-        arguments: ['@doctrine.orm.entity_manager', '@service_container']
-           
+        arguments: ['@doctrine.orm.entity_manager', '@service_container','@app.url.tester']
+    
+    

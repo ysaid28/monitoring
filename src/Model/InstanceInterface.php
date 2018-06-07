@@ -9,12 +9,13 @@
 namespace App\Model;
 
 use App\Entity\Instance;
+use App\Entity\Project;
 
-interface InstanceInterface extends  Sortable, State, Enabled, Timestampable
+interface InstanceInterface extends Sortable, State, Enabled, Timestampable
 {
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId(): ?int;
 
@@ -37,7 +38,67 @@ interface InstanceInterface extends  Sortable, State, Enabled, Timestampable
 
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getType(): ?string;
+
+    /**
+     * @return null|string
+     */
+    public function getPublicId(): ?string;
+
+    /**
+     * @param null|string $publicId
+     * @return Instance
+     */
+    public function setPublicId(?string $publicId): Instance;
+
+    /**
+     * @return null|string
+     */
+    public function getPrivateId(): ?string;
+
+    /**
+     * @param null|string $privateId
+     * @return Instance
+     */
+    public function setPrivateId(?string $privateId): Instance;
+
+    /**
+     * @return null|string
+     */
+    public function getHostName(): ?string;
+
+    /**
+     * @param null|string $hostName
+     * @return Instance
+     */
+    public function setHostName(?string $hostName): Instance;
+
+    /**
+     * @return bool|null
+     */
+    public function isEnabledSSL(): ?bool;
+
+    /**
+     * @param bool|null $enabledSSL
+     * @return Instance
+     */
+    public function setEnabledSSL(?bool $enabledSSL): Instance;
+
+    /**
+     * @return bool|null
+     */
+    public function getEnabledSSL(): ?bool;
+
+    /**
+     * @return Project|null
+     */
+    public function getProject(): ?Project;
+
+    /**
+     * @param Project|null $project
+     * @return Instance
+     */
+    public function setProject(?Project $project): Instance;
 }

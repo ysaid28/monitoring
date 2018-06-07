@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Instance;
 use App\Entity\Project;
+use App\Model\Enum\HttpStatusCode;
 use App\Model\Enum\InstanceType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -23,16 +24,20 @@ class ServiceTester implements ContainerAwareInterface
 
     /** @var EntityManqger $em */
     private $em;
+    /** @var UrlTester $urlTester */
+    private $urlTester;
 
     /**
      * ServiceTester constructor.
      * @param EntityManagerInterface $em
      * @param ContainerInterface $container
+     * @param UrlTester $urlTester
      */
-    public function __construct(EntityManagerInterface $em, ContainerInterface $container)
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container, UrlTester $urlTester)
     {
         $this->em = $em;
         $this->container = $container;
+        $this->urlTester = $urlTester;
     }
 
     /**
@@ -42,7 +47,6 @@ class ServiceTester implements ContainerAwareInterface
     public function test(SymfonyStyle $io): bool
     {
         $projects = $this->em->getRepository(Project::class)->getProjects();
-
         if (empty($projects)) {
             $io->warning("No Project enabled");
             return false;
@@ -52,15 +56,25 @@ class ServiceTester implements ContainerAwareInterface
             foreach ($projects as $project) {
                 $io->section(sprintf('Check %s services', $project->getName()));
                 foreach ($project->getInstances() as $instance) {
-                    if ($project->getType() == InstanceType::EC2) {
-                        $url = $this->getUrl($instance);
-                    } elseif ($project->getType() == InstanceType::OTHER) {
-                        $url = $this->getUrl($instance);
-                    } else {
-                        $url = null;
+                    $url = $this->getUrl($instance);
+                    if ($url) {
+                        $httpCode = $this->urlTester->httpStatusCode($url, null);
+                        if (HttpStatusCode::isValid($httpCode)) {
+                            $this->write($io, strval($httpCode), $url, $instance->getName(), null);
+                            if (HttpStatusCode::OK !== $httpCode) {
+
+                            }
+                        } else {
+                            $io->error(sprintf('Http Code %s not valid', $url). ' ');
+                        }
+
+                        // Update Services
+                        // Log 
+
                     }
-                    $this->write($io, "200", $url, $instance->getName(), null);
+
                 }
+
                 $io->success(sprintf('Finished  %s Services Tester', $project->getName()));
 
             }
@@ -69,6 +83,10 @@ class ServiceTester implements ContainerAwareInterface
         }
     }
 
+    /**
+     * @param Instance $instance
+     * @return null|string
+     */
     private function getUrl(Instance $instance): ? string
     {
         $url = "";
@@ -79,6 +97,7 @@ class ServiceTester implements ContainerAwareInterface
                     ($instance->getPublicId() ? $instance->getPublicId() : $instance->getPrivateId()));
         }
         $url .= '/login';
+        // Il faudra une u
         return $url;
     }
 
@@ -104,13 +123,17 @@ class ServiceTester implements ContainerAwareInterface
         if ($url) {
             $message .= ' - URL: ' . $url;
         }
-        
+
         if ($ip) {
             $message .= ' - IP: ' . $ip;
         }
-
         $io->writeln($message);
     }
 
+
+    private function notify()
+    {
+
+    }
 
 }
