@@ -9,7 +9,10 @@
 namespace App\Service;
 
 
+use App\Entity\EC2;
 use App\Entity\Instance;
+use App\Model\Enum\HttpStatusCode;
+use App\Model\Enum\InstanceType;
 use Aws\Sns\SnsClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -22,35 +25,59 @@ class NotifierService implements ContainerAwareInterface
 
     use ContainerAwareTrait;
 
-    /**
-     * @var EntityManagerInterface $em
-     *
-     */
-    protected $em;
+
     /**
      * @var SnsClient SnsClient
      *
      */
     protected $snsClient;
 
+
     /**
      * AwsService constructor.
-     * @param EntityManagerInterface $em
      * @param ContainerInterface $container
      * @param SnsClient $snsClient
      */
-    public function __construct(EntityManagerInterface $em, ContainerInterface $container, SnsClient $snsClient)
+    public function __construct(ContainerInterface $container, SnsClient $snsClient)
     {
-        $this->em = $em;
         $this->container = $container;
         $this->snsClient = $snsClient;
     }
-
-    public function notify(Instance $instance)
+    
+    /**
+     * @param Instance $instance
+     * @param int $code
+     * @return array
+     */
+    public function getMessage(Instance $instance, int $code)
     {
-        if ($instance->isEnabled()) {
+        $message = 'Nom Instance : ' . $instance->getName() . ' \n';;
 
+        if ($instance->getType() == InstanceType::EC2) {
+            $message .= 'Instance ID: ' . $instance->getInstanceId() . ' \n';
         }
+
+        if ($instance->getPublicId()) {
+            $message .= 'IP Privée: ' . $instance->getPublicId() . ' \n';
+        }
+
+        if ($instance->getPrivateId()) {
+            $message .= 'IP Publique: ' . $instance->getPrivateId() . ' \n';
+        }
+
+        $content = UrlTester::getHTTPResponseCode($code);
+        if (isset($content['text'])) {
+            $message .= 'Erreur remontée sur : ' . $content['text'] . ' \n';
+        }
+
+        if (isset($content['message'])) {
+            $message .= 'Explication : ' . $content['message'] . ' \n';
+        }
+
+        return [
+            'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(), 
+            'message' => $message
+        ];
 
     }
 
@@ -62,7 +89,7 @@ class NotifierService implements ContainerAwareInterface
      * @internal param $item
      * @internal param $result
      */
-    public function sendMessageBySns(string $message, $subject, $prod = false)
+    public function sendMessageBySns(string $subject, string $message, $prod = false)
     {
         try {
             $dataToPublish = [
@@ -74,7 +101,7 @@ class NotifierService implements ContainerAwareInterface
 
         } catch (\Exception $e) {
             echo 'Error : ', $e->getMessage(), "\n";
-            
+
         }
     }
 

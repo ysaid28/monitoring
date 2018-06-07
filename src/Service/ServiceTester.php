@@ -27,17 +27,23 @@ class ServiceTester implements ContainerAwareInterface
     /** @var UrlTester $urlTester */
     private $urlTester;
 
+    private $minutesToAdd = 10;
+    /** @var NotifierService $notif */
+    private $notif;
+
     /**
      * ServiceTester constructor.
      * @param EntityManagerInterface $em
      * @param ContainerInterface $container
      * @param UrlTester $urlTester
+     * @param NotifierService $notif
      */
-    public function __construct(EntityManagerInterface $em, ContainerInterface $container, UrlTester $urlTester)
+    public function __construct(EntityManagerInterface $em, ContainerInterface $container, UrlTester $urlTester, NotifierService $notif)
     {
         $this->em = $em;
         $this->container = $container;
         $this->urlTester = $urlTester;
+        $this->notif = $notif;
     }
 
     /**
@@ -57,17 +63,33 @@ class ServiceTester implements ContainerAwareInterface
                 $io->section(sprintf('Check %s services', $project->getName()));
                 foreach ($project->getInstances() as $instance) {
                     $url = $this->getUrl($instance);
-                    if ($url) {
-                        $httpCode = $this->urlTester->httpStatusCode($url, null);
+                    if ($url && filter_var($url, FILTER_VALIDATE_URL) && $instance->isEnabled()) {
+//                        $httpCode = $this->urlTester->httpStatusCode($url, null);
+                        $httpCode = 300;
                         if (HttpStatusCode::isValid($httpCode)) {
                             $this->write($io, strval($httpCode), $url, $instance->getName(), null);
                             if (HttpStatusCode::OK !== $httpCode) {
+                                // Send Notification
+                                $now = (new \DateTime("now"))->setTimezone(new \DateTimeZone("Europe/Paris"));
+                                if ($instance->isNotified() && $this->checkLastNotification($instance->getDateNotification(), $now)) {
+                                    dump('notifier');
+                                    $instance->setDateNotification($now);
+                                    $message = $this->notif->getMessage($instance, $httpCode);
+                                    if (isset($message['subject']) && isset($message['message'])) {
+                                        $this->notif->sendMessageBySns($message['subject'], $message['message'], false);
+                                    }
+                                    // Add Log
 
+                                }
+
+                            } else {
+                                dump($httpCode);
+                                die;
                             }
                         } else {
-                            $io->error(sprintf('Http Code %s not valid', $url). ' ');
+                            $io->error(sprintf('Http Code %s not valid', $url) . ' ');
                         }
-
+                        //Lance le fixture 
                         // Update Services
                         // Log 
 
@@ -81,6 +103,11 @@ class ServiceTester implements ContainerAwareInterface
             $io->success('END SERVICES TESTER');
             return true;
         }
+    }
+
+    public function addLog()
+    {
+        
     }
 
     /**
@@ -131,9 +158,21 @@ class ServiceTester implements ContainerAwareInterface
     }
 
 
-    private function notify()
+    /**
+     * @param \DateTime|null $date
+     * @param \DateTime $now
+     * @return bool
+     * @throws \Exception
+     */
+    public function checkLastNotification(?\DateTime $date, \DateTime $now): bool
     {
+        if ($date instanceof \DateTime && $date !== null) {
+            $temp = new \DateTime($date->format('Y-m-d H:i'));
+            $temp->add(new \DateInterval('PT' . $this->minutesToAdd . 'M'));
 
+            return ($temp <= $now) ?? false;
+        }
+        return true;
     }
 
 }
