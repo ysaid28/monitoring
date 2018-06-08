@@ -32,6 +32,11 @@ class NotifierService implements ContainerAwareInterface
      */
     protected $snsClient;
 
+    /**
+     * @var array $sns
+     */
+    private $sns;
+  
 
     /**
      * AwsService constructor.
@@ -42,8 +47,10 @@ class NotifierService implements ContainerAwareInterface
     {
         $this->container = $container;
         $this->snsClient = $snsClient;
+        $this->sns['prod'] = $container->getParameter('aws_sns_arn');
+        $this->sns['dev'] = $container->getParameter('aws_sns_arn_dev');
     }
-    
+
     /**
      * @param Instance $instance
      * @param int $code
@@ -75,7 +82,7 @@ class NotifierService implements ContainerAwareInterface
         }
 
         return [
-            'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(), 
+            'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(),
             'message' => $message
         ];
 

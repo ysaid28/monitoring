@@ -7,6 +7,7 @@ use MyCLabs\Enum\Enum;
 final class HttpStatusCode extends Enum
 {
 //    const __default = self::OK;
+    const NOTEXIST = 0;
     const CONTINUE = 100;
     const SWITCHING_PROTOCOLS = 101;
     const OK = 200;

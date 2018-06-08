@@ -50,9 +50,9 @@ class Log  //implements LoggerInterface
     }
 
     /**
-     * @return mixed
+     * @return null| int
      */
-    public function getId(): void 
+    public function getId(): ?int
     {
         return $this->id;
     }
