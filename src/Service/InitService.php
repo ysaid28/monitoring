@@ -83,7 +83,7 @@ class InitService implements ContainerAwareInterface
         if ($launchTime instanceof DateTimeResult) {
             $ec2->setLaunchTime(new \DateTime($launchTime->format('Y-m-d H:i:s')));
         }
-
+        
         foreach ($methods as $item) {
             $method = 'set' . $item;
             if (method_exists($ec2, $method)) {
@@ -102,6 +102,20 @@ class InitService implements ContainerAwareInterface
         $ec2->setState(isset($data["State"]["Name"]) ? strtolower($data["State"]["Name"]) : InstanceState::UNKNOWN);
         $ec2->setEnabled(true);
         $ec2->setEnabledNotification(true);
+        // A MODIFIER
+        $url = 'https://' . $ec2->getName();
+        if ( $ec2->getName() && filter_var($url, FILTER_VALIDATE_URL)) {
+            ["scheme" => $scheme, "host" => $host] = parse_url($url);
+            $ip = gethostbyname($host);
+
+            if ($ip == $ec2->getPublicIpAddress()
+                && filter_var($ec2->getPublicIpAddress(), FILTER_VALIDATE_IP)) {
+                $ec2->setEnabledSSL($scheme == 'https' ?? false);
+                $ec2->setHostName($host);
+                $ec2->setPublicId($ip ? $ip : null);
+            }
+
+        }
 
         $vpcId = $this->getData($data, 'VpcId');
         if ($vpcId) {

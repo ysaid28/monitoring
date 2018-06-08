@@ -81,8 +81,9 @@ class AppFixtures extends Fixture
      */
     private function loadInstances(ObjectManager $manager): void
     {
-        $name = 'AWS';
-        $tags = ["Env" => "staging"];
+        $name = 'Beeshake Démo';
+        $tags = ["Environment" => "demo", "Project" => "beeshake"];
+        
         $project = $manager->getRepository(Project::class)->findOneByName($name);
         if (empty($project) || !($project instanceof Project)) {
             $project = new Project();
