@@ -173,7 +173,7 @@ class InitService implements ContainerAwareInterface
                             ->setMajorProductionVersion(strtoupper($versionProd))
                             ->setMajorStagingVersion(strtoupper($versionStaging))
                             ->setPosition(0);
-                        $instance->setState(InstanceState::ENABLE);
+                        $instance->setState(InstanceState::RUNNING);
                         $instance->setEnabled(true);
                         $instance->setEnabledNotification(true);
                         $instance->setProject($project);
