@@ -44,24 +44,62 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown dropdown-extended dropdown-notification">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell fa-fw"></i>
+                                <span class="badge badge-default"> 7 </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-list  scroller">
+                                <li>
+                                    <span class="time">Now</span>
+                                    <span class="details">
+                                    <a href="https://github.com/upro">
+                                    <span class="label label-sm label-icon label-danger">
+                                          <i class="fa fa-warning"></i></span> Certificates</a>
+                                    </span>
+                                </li>
+                                <li>
+                                     <span class="time">2 min</span>
+                                    <span class="details">
+                                    <a href="https://github.com/upro">
+                                    <span class="label label-sm label-icon label-danger">
+                                          <i class="fa fa-warning"></i></span> Certificates</a>
+                                    </span>
+                                </li>
+                                <li>
+                                     <span class="time">10 mins</span>
+                                    <span class="details">
+                                    <a href="https://github.com/upro">
+                                    <span class="label label-sm label-icon label-info">
+                                          <i class="fa fa-info"></i></span> Certificates</a>
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </li>
 
                         <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                            <a id="aws_refresh"
-                               href="{{ path('home_page') }}" class=""><i class="fa fa-bell fa-fw"></i></a>
+                            <a tabindex="0"
+                               role="button" data-toggle="popover"
+                               data-trigger="focus"
+                               placement="bottom"
+                               id="notification"
+                            >
+                                <i class="fa fa-bell fa-fw"></i></a>
                         </li>
                         <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                            <a id="aws_refresh"
+                            <a id=""
                                href="{{ path('home_page') }}" class="">
                                 <i class="fa fa-code fa-fw"></i>
                                 Crontab</a>
                         </li>
                         <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                            <a id="aws_refresh" href="{{ path('home_page') }}" class="active"><i
+                            <a id="" href="{{ path('home_page') }}" class="active"><i
                                         class="fa fa-link fa-fw"></i>
                                 URL</a>
                         </li>
                         <li {% if routeName =='security_logout' %} class="active" {% endif %}>
-                            <a id="aws_logs" class="spec-button"
+                            <a id="" class="spec-button"
                                href="{{ path('home_page') }}"
                                title="Log"> <i class="fa fa-terminal"></i> Log </a>
                         </li>

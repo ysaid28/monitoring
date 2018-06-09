@@ -12,11 +12,11 @@
                 <i class="fa fa-plus fa-fw"></i> Ajouter un projet</a>
         </div>
     </div>
-
+    
     {% if projects is defined and projects %}
         {% for project in projects %}
             <section>
-                <h4 class="instance instance-title"><i class="fa fa-linux fa-fw"></i>
+                <h4 class="instance instance-title"><i class="fa fa-server fa-fw"></i>
                     {{ project.name | capitalize }}
                     <form action="#" autocomplete="off">
                         <div class="pull-right hide btn-switch" id="notify_{{ project.id }}">
@@ -74,7 +74,7 @@
                                     </td>
                                     <td>{{ instance.name }}</td>
                                     <td>
-                                        {% if instance.state =="enable" %}
+                                        {% if instance.state =="running" %}
                                             <i class="fa fa-circle fa-fw text-success"
                                                aria-hidden="true"></i>{{ instance.state | capitalize }}
 
@@ -114,7 +114,8 @@
                                     </td>
                                     <td>
                                         {% if instance.publicIpAddress is defined and  instance.publicIpAddress %}
-                                            {{ instance.publicIpAddress }}
+                                            <a href="http://{{ (instance.publicIpAddress) }}"
+                                               target="_blank">{{ instance.publicIpAddress }}</a>
                                         {% else %}
                                             -
                                         {% endif %}
@@ -133,17 +134,27 @@
                                             -
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
+                                        <input
+                                                {% if instance.enabled == true %}
+                                                    checked
+                                                {% endif %}
+                                                class="hide"
+                                                id="change_state"
+                                                data-size="mini"
+                                                data-notify-id="{{ instance.id }}"
+                                                data-notify-name="{{ instance.name }}"
+                                                data-on="Enabled" data-off="Disabled"
+                                                data-width="65"
+                                                data-onstyle="success" data-offstyle="default"
+                                                data-toggle="toggle"
+                                                type="checkbox">
                                         <a href="#"
                                            class=" btn btn-xs btn-default">
                                             <i class="fa fa-search fa-fw"></i>
-                                           Logs
+                                            Voir logs
                                         </a>
-                                        <a href="#"
-                                           class=" btn btn-xs btn-default">
-                                            <i class="fa fa-search fa-fw"></i>
-                                            Enabled
-                                        </a>
+
                                     </td>
                                 </tr>
                                 <tr id="collapse-{{ instance.id }}" class="collapse">
@@ -153,7 +164,7 @@
                                             <dd>{{ instance.instanceId }}</dd>
                                             <dt>État de l'instance</dt>
                                             <dd>
-                                                {% if instance.state =="enable" %}
+                                                {% if instance.state =="running" %}
                                                     <i class="fa fa-circle fa-fw text-success"
                                                        aria-hidden="true"></i>{{ instance.state | capitalize }}
 
@@ -185,7 +196,8 @@
                                             <dt>Public IP (EIP)</dt>
                                             <dd>
                                                 {% if instance.publicIpAddress is defined %}
-                                                    {{ instance.publicIpAddress }}
+                                                    <a href="http://{{ instance.publicIpAddress }}"
+                                                       target="_blank">{{ instance.publicIpAddress }}</a>
                                                 {% endif %}
                                             </dd>
 
@@ -219,7 +231,7 @@
                                                 {% endif %}
                                             </dd>
 
-                                            <dt>Nom de la paire de clés</dt>
+                                            <dt>Name de la paire de clés</dt>
                                             <dd>
                                                 {% if instance.keyName is defined %}
                                                     {{ instance.keyName }}
@@ -272,12 +284,14 @@
                                         <dl class="dl-horizontal table-dl-horizontal">
                                             {% if instance.publicDnsName is defined %}
                                                 <dt>DNS public (IPv4)</dt>
-                                                <dd>{{ instance.publicDnsName }}</dd>
+                                                <dd><a href="{{ instance.publicDnsName }}"
+                                                       target="_blank">{{ instance.publicDnsName }}</a></dd>
                                             {% endif %}
 
                                             {% if instance.publicIpAddress is defined %}
                                                 <dt>IP publique IPv4</dt>
-                                                <dd>{{ instance.publicIpAddress }}</dd>
+                                                <dd><a href="{{ instance.publicIpAddress }}"
+                                                       target="_blank">{{ instance.publicIpAddress }}</a></dd>
                                             {% endif %}
 
                                             {% if instance.privateDnsName is defined %}
@@ -323,7 +337,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Customer</th>
-                                <th>Nom</th>
+                                <th>Name</th>
                                 <th>Status</th>
                                 <th>Enabled</th>
                                 <th>Private IP</th>
@@ -336,8 +350,8 @@
                             {% for instance in project.instances %}
                                 <tr>
                                     <td>
-                                        <a data-toggle="collapse" href="#{{ instance.id }}"
-                                           id="btn-{{ instance.id }}"
+                                        <a data-toggle="collapse" href="#collapse-{{ instance.id }}"
+                                           id="btn-collapse-{{ instance.id }}"
                                            aria-expanded="false"
                                            aria-controls="{{ instance.id }}"><i
                                                     class="fa fa-plus-circle"></i>
@@ -354,7 +368,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if instance.state =="enable" %}
+                                        {% if instance.state =="running" %}
                                             <i class="fa fa-circle fa-fw text-success"
                                                aria-hidden="true"></i>{{ instance.state | capitalize }}
 
@@ -378,7 +392,7 @@
                                             > No</span>{#{{ instance.enabled | capitalize }}#}
                                         {% endif %}
                                     </td>
-                                    
+
                                     <td>
                                         {% if instance.privateId is defined and instance.privateId %}
                                             {{ instance.privateId }}
@@ -388,7 +402,8 @@
                                     </td>
                                     <td>
                                         {% if instance.publicId is defined and instance.publicId %}
-                                            {{ instance.publicId }}
+                                            <a href="http://{{ instance.publicId }}"
+                                               target="_blank">{{ instance.publicId }}</a>
                                         {% else %}
                                             -
                                         {% endif %}
@@ -400,12 +415,81 @@
                                             -
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
+                                        <input
+                                                {% if instance.enabled == true %}
+                                                    checked
+                                                {% endif %}
+                                                class="hide"
+                                                id="change_state"
+                                                data-size="mini"
+                                                data-notify-id="{{ instance.id }}"
+                                                data-notify-name="{{ instance.name }}"
+                                                data-on="Enabled" data-off="Disabled"
+                                                data-width="65"
+                                                data-onstyle="success" data-offstyle="default"
+                                                data-toggle="toggle"
+                                                type="checkbox">
                                         <a href="#"
-                                           class=" btn btn-xs btn-block btn-default"><i class="fa fa-search fa-fw"></i>
-                                            Voir
-                                            logs
+                                           class=" btn btn-xs btn-default">
+                                            <i class="fa fa-search fa-fw"></i>
+                                            Voir logs
                                         </a>
+
+                                    </td>
+                                </tr>
+                                <tr id="collapse-{{ instance.id }}" class="collapse">
+                                    <td class="td-collapse" colspan="9">
+                                        <dl class="dl-horizontal table-dl-horizontal">
+                                            <dt>Name</dt>
+                                            <dd>{{ instance.name }}</dd>
+                                            <dt>Customer</dt>
+                                            <dd>
+                                                {% if instance.customer is defined and instance.customer %}
+                                                    {{ instance.customer }}
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Server</dt>
+                                            <dd>
+                                                {% if instance.name is defined and instance.name %}
+                                                    {{ instance.name }}.aucafet.net
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Status</dt>
+                                            <dd>
+                                                {% if instance.state =="running" %}
+                                                    <i class="fa fa-circle fa-fw text-success"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% elseif instance.state =="stopped" %}
+                                                    <i class="fa fa-circle fa-fw text-danger"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% else %}
+                                                    <i class="fa fa-circle fa-fw text-warning"
+                                                       aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Enabled</dt>
+                                            <dd>
+                                                {% if instance.enabled %}
+                                                    <span class="label label-success"
+                                                          aria-hidden="true"> Yes</span>
+                                                {% else %}
+                                                    <span class="label label-danger"
+                                                    > No</span>
+                                                {% endif %}
+                                            </dd>
+                                            <dt>Host name</dt>
+                                            <dd>
+                                                {% if instance.hostname is defined and instance.hostname %}
+                                                    <a href="http://{{ instance.hostname }}"
+                                                       target="_blank">{{ instance.hostname }}</a>
+                                                {% endif %}
+                                            </dd>
+
+                                        </dl>
                                     </td>
                                 </tr>
                             {% else %}
