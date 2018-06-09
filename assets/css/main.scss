@@ -31,9 +31,73 @@
             color: white;
         }
 
-        .open > a, .open > a:focus, .open > a:hover {
-            background-color: $link-color;
+        .open {
+            a, a:focus, a:hover {
+                background-color: $link-color;
+                color: #555;
+            }
+            .dropdown-menu > li > a {
+                color: #555 !important;
+            }
         }
+
+        .dropdown-notification {
+
+            a, a:focus, a:hover {
+                background-color: $background-main !important;
+                color: #fff !important;
+            }
+
+            .dropdown-menu {
+                min-width: 140px;
+                max-width: 260px;
+                width: 235px;
+                z-index: 9995;
+                //border: 1px solid #EFF2F6 !important;
+
+                li {
+                    a, a:focus, a:hover {
+                        background-color: $link-color !important;
+                        color: #555 !important;
+                        text-decoration: none;
+                    }
+
+                    padding: 7px 0 7px 0;
+
+                    .time {
+                        background: #f1f1f1;
+                        float: right;
+                        max-width: 75px;
+                        font-size: 11px;
+                        font-weight: 400;
+                        opacity: .7;
+                        filter: alpha(opacity=70);
+                        text-align: right;
+                        padding: 1px 5px;
+                    }
+                    .details {
+                        overflow: hidden;
+                        margin-left: 10px;
+                        .label-icon {
+                            margin-right: 10px;
+                            padding: 4px 6px ;
+                            min-width: 30px;
+                            i {
+                                margin-left: 1px;
+                                margin-right: 2px;
+                                width: 10px;
+                            }
+                        }
+                    }
+
+                }
+                li:hover {
+                    background-color: #fafafa !important;
+                    border: 0.1px solid #EFF2F6 !important;
+                }
+            }
+        }
+
     }
 
     .navbar-header {
@@ -121,10 +185,7 @@
     }
     .table-dl-horizontal {
         dd, dt {
-            line-height: 1.5;
+            line-height: 1.7;
         }
     }
 }
-
-
-
