@@ -1,0 +1,85 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Certificates | {{ parent() }}{% endblock %}
+
+{% block body_id %}main{% endblock %}
+
+{% block body_app %}
+
+    {% if instances is defined and instances %}
+        <section>
+        <h4 class="instance instance-title"><i class="fa fa-server fa-fw"></i> Certifcates
+        </h4>
+        <table class="table table-hover table-instance" id="table-instance">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Enabled</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for instance in instances %}
+                <tr>
+                    <td>{{ instance.name }}</td>
+                    <td>
+                        {% if instance.state =="running" %}
+                            <i class="fa fa-circle fa-fw text-success"
+                               aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                        {% elseif instance.state =="stopped" %}
+                            <i class="fa fa-circle fa-fw text-danger"
+                               aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                        {% else %}
+                            <i class="fa fa-circle fa-fw text-warning"
+                               aria-hidden="true"></i>{{ instance.state | capitalize }}
+
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if instance.enabled %}
+                            <span class="label label-success"
+                                  aria-hidden="true"> Yes</span>
+
+                        {% else %}
+                            <span class="label label-danger"
+                            > No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if instance.certificateStartDate %}
+                            {{ instance.certificateStartDate | date("d M Y") }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if instance.certificateEndDate %}
+                            {{ instance.certificateEndDate | date("d M Y") }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="#"
+                           class=" btn btn-xs btn-default">
+                            <i class="fa fa-search fa-fw"></i>
+                            Voir logs
+                        </a>
+
+                    </td>
+                </tr>
+            {% else %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    </section>
+
+{% endblock %}

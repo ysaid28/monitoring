@@ -8,3 +8,5 @@ import 'bootstrap-sass/assets/javascripts/bootstrap/tooltip.js';
 import 'bootstrap-sass/assets/javascripts/bootstrap/popover.js';
 
 
+
+

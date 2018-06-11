@@ -12,7 +12,7 @@
                 <i class="fa fa-plus fa-fw"></i> Ajouter un projet</a>
         </div>
     </div>
-    
+
     {% if projects is defined and projects %}
         {% for project in projects %}
             <section>
@@ -33,6 +33,7 @@
                                     data-width="180"
                                     data-onstyle="success" data-offstyle="default"
                                     data-toggle="toggle"
+                                    data-type="project"
                                     type="checkbox">
                         </div>
                     </form>
@@ -95,7 +96,7 @@
 
                                         {% else %}
                                             <span class="label label-danger"
-                                            > No</span>{#{{ instance.enabled | capitalize }}#}
+                                            > No</span>
                                         {% endif %}
                                     </td>
                                     <td>
@@ -148,6 +149,7 @@
                                                 data-width="65"
                                                 data-onstyle="success" data-offstyle="default"
                                                 data-toggle="toggle"
+                                                data-type="instance"
                                                 type="checkbox">
                                         <a href="#"
                                            class=" btn btn-xs btn-default">
@@ -429,6 +431,7 @@
                                                 data-width="65"
                                                 data-onstyle="success" data-offstyle="default"
                                                 data-toggle="toggle"
+                                                data-type="instance"
                                                 type="checkbox">
                                         <a href="#"
                                            class=" btn btn-xs btn-default">
@@ -514,4 +517,8 @@
         {% endfor %}
     {% endif %}
 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/js/index.js') }}"></script>
 {% endblock %}

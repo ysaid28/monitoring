@@ -73,7 +73,22 @@ abstract class Instance implements InstanceInterface
      * @ORM\Column(name="enabled_ssl", type="boolean",  nullable=true)
      */
     protected $enabledSSL = false;
-    
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="certificate_start_date", type="datetime",  nullable=true)
+     */
+    protected $certificateStartDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="certificate_end_date", type="datetime",  nullable=true)
+     */
+    protected $certificateEndDate;
+
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="instances")
      *
@@ -158,7 +173,7 @@ abstract class Instance implements InstanceInterface
         $this->publicId = $publicId;
         return $this;
     }
-    
+
     /**
      * @return null|string
      */
@@ -166,7 +181,7 @@ abstract class Instance implements InstanceInterface
     {
         return $this->privateId;
     }
-    
+
     /**
      * @param null|string $privateId
      * @return Instance
@@ -176,7 +191,7 @@ abstract class Instance implements InstanceInterface
         $this->privateId = $privateId;
         return $this;
     }
-    
+
     /**
      * @return null|string
      */
@@ -184,7 +199,7 @@ abstract class Instance implements InstanceInterface
     {
         return $this->hostName;
     }
-    
+
     /**
      * @param null|string $hostName
      * @return Instance
@@ -194,7 +209,7 @@ abstract class Instance implements InstanceInterface
         $this->hostName = $hostName;
         return $this;
     }
-    
+
     /**
      * @return bool|null
      */
@@ -202,7 +217,7 @@ abstract class Instance implements InstanceInterface
     {
         return $this->enabledSSL;
     }
-    
+
     /**
      * @param bool|null $enabledSSL
      * @return Instance
@@ -238,4 +253,37 @@ abstract class Instance implements InstanceInterface
         $this->project = $project;
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCertificateStartDate(): ?\DateTime
+    {
+        return $this->certificateStartDate;
+    }
+
+    /**
+     * @param \DateTime $certificateStartDate
+     */
+    public function setCertificateStartDate(?\DateTime $certificateStartDate): void
+    {
+        $this->certificateStartDate = $certificateStartDate;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCertificateEndDate(): ?\DateTime
+    {
+        return $this->certificateEndDate;
+    }
+
+    /**
+     * @param \DateTime $certificateEndDate
+     */
+    public function setCertificateEndDate(?\DateTime $certificateEndDate): void
+    {
+        $this->certificateEndDate = $certificateEndDate;
+    }
+
 }
