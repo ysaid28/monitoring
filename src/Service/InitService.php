@@ -83,7 +83,7 @@ class InitService implements ContainerAwareInterface
         if ($launchTime instanceof DateTimeResult) {
             $ec2->setLaunchTime(new \DateTime($launchTime->format('Y-m-d H:i:s')));
         }
-        
+
         foreach ($methods as $item) {
             $method = 'set' . $item;
             if (method_exists($ec2, $method)) {
@@ -104,15 +104,21 @@ class InitService implements ContainerAwareInterface
         $ec2->setEnabledNotification(true);
         // A MODIFIER
         $url = 'https://' . $ec2->getName();
-        if ( $ec2->getName() && filter_var($url, FILTER_VALIDATE_URL)) {
-            ["scheme" => $scheme, "host" => $host] = parse_url($url);
+        if ($ec2->getName() && filter_var($url, FILTER_VALIDATE_URL)) {
+//            ["scheme" => $scheme, "host" => $host] = parse_url($url);
+            $host = parse_url($url, PHP_URL_HOST);
             $ip = gethostbyname($host);
-
             if ($ip == $ec2->getPublicIpAddress()
                 && filter_var($ec2->getPublicIpAddress(), FILTER_VALIDATE_IP)) {
-                $ec2->setEnabledSSL($scheme == 'https' ?? false);
-                $ec2->setHostName($host);
+                $ec2->setEnabledSSL(parse_url($url, PHP_URL_SCHEME) == 'https' ?? false);
                 $ec2->setPublicId($ip ? $ip : null);
+
+                if (!empty($host)) {
+                    $ec2->setHostName($host);
+                    $date = SSLService::getCertificateDate($host, true);
+                    $ec2->setCertificateStartDate($date['start']);
+                    $ec2->setCertificateEndDate($date['end']);
+                }
             }
 
         }
@@ -147,14 +153,14 @@ class InitService implements ContainerAwareInterface
 
     public function otherInstance(Project $project, string $nameFile): void
     {
-        $filepath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
-        if (!file_exists($filepath)) {
+        $filePath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
+        if (!file_exists($filePath)) {
             throw new \UnexpectedValueException(" The file \"'$nameFile'\" doesn't exist");
         } else if (empty($project) || !($project instanceof Project)) {
             throw new \UnexpectedValueException(" Project not found");
         }
 
-        if (($handle = fopen($filepath, 'r')) !== false) {
+        if (($handle = fopen($filePath, 'r')) !== false) {
             $i = 0;
             while (($data = fgetcsv($handle, 0, ',')) !== false) {
                 if ($i > 0 && is_array($data)) {
@@ -173,15 +179,22 @@ class InitService implements ContainerAwareInterface
                             ->setMajorProductionVersion(strtoupper($versionProd))
                             ->setMajorStagingVersion(strtoupper($versionStaging))
                             ->setPosition(0);
-                        $instance->setState(InstanceState::ENABLE);
+                        $instance->setState(InstanceState::RUNNING);
                         $instance->setEnabled(true);
                         $instance->setEnabledNotification(true);
                         $instance->setProject($project);
 
                         if (filter_var($url, FILTER_VALIDATE_URL)) {
-                            ["scheme" => $scheme, "host" => $host] = parse_url($url);
-                            $instance->setEnabledSSL($scheme == 'https' ?? false);
+                            $host = parse_url($url, PHP_URL_HOST);
                             $instance->setHostName($host);
+                            if (!empty($host)) {
+                                $instance->setHostName($host);
+                                $date = SSLService::getCertificateDate($host, true);
+                                $instance->setCertificateStartDate($date['start']);
+                                $instance->setCertificateEndDate($date['end']);
+                            }
+
+                            $instance->setEnabledSSL(parse_url($url, PHP_URL_SCHEME) == 'https' ?? false);
                             $ip = gethostbyname($host);
                             $instance->setPublicId($ip ? $ip : null);
                         }

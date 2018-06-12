@@ -18,7 +18,7 @@ trait NotificationEntity
 
 
     /**
-     * @ORM\Column(type="date", name="date_notification", nullable=true)
+     * @ORM\Column(type="datetime", name="date_notification", nullable=true)
      */
     protected $dateNotification ;
 

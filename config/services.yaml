@@ -44,4 +44,9 @@ services:
         public: true
         arguments: ['@doctrine.orm.entity_manager', '@service_container','@app.url.tester']
     
+    app.ssl.service:
+        class: App\Service\SSLService
+        public: true
+        arguments: ['@doctrine.orm.entity_manager','@app.notifier.service']
+    
     

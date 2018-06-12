@@ -38,7 +38,7 @@ class EC2 extends Instance implements EC2Interface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="launch_time", type="date", nullable=true)
+     * @ORM\Column(name="launch_time", type="datetime", nullable=true)
      */
     protected $launchTime;
 
@@ -459,7 +459,7 @@ class EC2 extends Instance implements EC2Interface
      */
     public function setPublicIpAddress(?string $publicIpAddress): void
     {
-        if (!empty($publicIpAddressà)) {
+        if (!empty($publicIpAddress)) {
             $this->setPublicId($publicIpAddress);
         }
         $this->publicIpAddress = $publicIpAddress;

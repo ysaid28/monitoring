@@ -32,6 +32,11 @@ class NotifierService implements ContainerAwareInterface
      */
     protected $snsClient;
 
+    /**
+     * @var array $sns
+     */
+    private $sns;
+
 
     /**
      * AwsService constructor.
@@ -42,40 +47,53 @@ class NotifierService implements ContainerAwareInterface
     {
         $this->container = $container;
         $this->snsClient = $snsClient;
+        $this->sns['prod'] = $container->getParameter('aws_sns_arn');
+        $this->sns['dev'] = $container->getParameter('aws_sns_arn_dev');
     }
-    
+
     /**
      * @param Instance $instance
      * @param int $code
+     * @param string $url
      * @return array
      */
-    public function getMessage(Instance $instance, int $code)
+    public function getMessage(Instance $instance, int $code, string $url): array 
     {
-        $message = 'Nom Instance : ' . $instance->getName() . ' \n';;
+        $message = 'Instance : ' . $instance->getName() . " \n";;
 
         if ($instance->getType() == InstanceType::EC2) {
-            $message .= 'Instance ID: ' . $instance->getInstanceId() . ' \n';
+            $message .= 'Instance ID: ' . $instance->getInstanceId() . " \n";
+        }
+
+        if ($instance->getHostName()) {
+            $message .= 'Host: ' . $instance->getHostName() . " \n";
+        }
+        if ($url) {
+            $message .= 'URL test: ' . $url . " \n";
         }
 
         if ($instance->getPublicId()) {
-            $message .= 'IP Privée: ' . $instance->getPublicId() . ' \n';
+            $message .= 'Public IP: ' . $instance->getPublicId() . " \n";
         }
 
         if ($instance->getPrivateId()) {
-            $message .= 'IP Publique: ' . $instance->getPrivateId() . ' \n';
+            $message .= 'Private IP: ' . $instance->getPrivateId() . " \n";
         }
 
         $content = UrlTester::getHTTPResponseCode($code);
         if (isset($content['text'])) {
-            $message .= 'Erreur remontée sur : ' . $content['text'] . ' \n';
+            $message .= " \n";
+            $message .= 'Error ' . $code . ':' . $content['text'] . " \n";
         }
 
         if (isset($content['message'])) {
-            $message .= 'Explication : ' . $content['message'] . ' \n';
+            $message .= 'Explication : ' . $content['message'] . " \n";
         }
+        
+        $message .= " \n\nAWS Management";
 
         return [
-            'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(), 
+            'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(),
             'message' => $message
         ];
 
@@ -101,7 +119,6 @@ class NotifierService implements ContainerAwareInterface
 
         } catch (\Exception $e) {
             echo 'Error : ', $e->getMessage(), "\n";
-
         }
     }
 

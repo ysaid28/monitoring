@@ -32,6 +32,13 @@ class AddUserCommand extends Command
     private $validator;
     private $users;
 
+    /**
+     * AddUserCommand constructor.
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $encoder
+     * @param Validator $validator
+     * @param UserRepository $users
+     */
     public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, Validator $validator, UserRepository $users)
     {
         parent::__construct();
@@ -66,21 +73,13 @@ class AddUserCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        // SymfonyStyle is an optional feature that Symfony provides so you can
-        // apply a consistent look to the commands of your application.
-        // See https://symfony.com/doc/current/console/style.html
         $this->io = new SymfonyStyle($input, $output);
     }
 
+
     /**
-     * This method is executed after initialize() and before execute(). Its purpose
-     * is to check if some of the options/arguments are missing and interactively
-     * ask the user for those values.
-     *
-     * This method is completely optional. If you are developing an internal console
-     * command, you probably should not implement this method because it requires
-     * quite a lot of work. However, if the command is meant to be used by external
-     * users, this method is a nice way to fall back and prevent errors.
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {

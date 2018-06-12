@@ -11,6 +11,7 @@ namespace App\Service;
 use App\Entity\Instance;
 use App\Entity\Project;
 use App\Model\Enum\HttpStatusCode;
+use App\Model\Enum\InstanceState;
 use App\Model\Enum\InstanceType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -49,6 +50,7 @@ class ServiceTester implements ContainerAwareInterface
     /**
      * @param SymfonyStyle $io
      * @return bool
+     * @throws \Exception
      */
     public function test(SymfonyStyle $io): bool
     {
@@ -57,57 +59,76 @@ class ServiceTester implements ContainerAwareInterface
             $io->warning("No Project enabled");
             return false;
         } else {
-            $io->title('Services test');
             /** @var Project $project */
             foreach ($projects as $project) {
-                $io->section(sprintf('Check %s services', $project->getName()));
-                foreach ($project->getInstances() as $instance) {
+                
+                $io->section(sprintf('Verification of %s instances', $project->getName()));
+                foreach ($project->getInstances() as $k => $instance) {
                     $url = $this->getUrl($instance);
                     if ($url && filter_var($url, FILTER_VALIDATE_URL) && $instance->isEnabled()) {
-//                        $httpCode = $this->urlTester->httpStatusCode($url, null);
-                        $httpCode = 300;
+                        $httpCode = $this->urlTester->httpStatusCode($url, null);
                         if (HttpStatusCode::isValid($httpCode)) {
                             $this->write($io, strval($httpCode), $url, $instance->getName(), null);
                             if (HttpStatusCode::OK !== $httpCode) {
-                                // Send Notification
-                                $now = (new \DateTime("now"))->setTimezone(new \DateTimeZone("Europe/Paris"));
-                                if ($instance->isNotified() && $this->checkLastNotification($instance->getDateNotification(), $now)) {
-                                    dump('notifier');
+                                $now = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
+                                if ($instance->isNotified() && $this->sendNotification($instance->getDateNotification(), $now)) {
                                     $instance->setDateNotification($now);
-                                    $message = $this->notif->getMessage($instance, $httpCode);
+                                    $message = $this->notif->getMessage($instance, $httpCode, $url);
                                     if (isset($message['subject']) && isset($message['message'])) {
-                                        $this->notif->sendMessageBySns($message['subject'], $message['message'], false);
+                                       // $this->notif->sendMessageBySns($message['subject'], $message['message'], false);
                                     }
-                                    // Add Log
-
+                                    // LOGGER
                                 }
-
-                            } else {
-                                dump($httpCode);
-                                die;
                             }
+
+                            $status = $this->getState($httpCode);
+                            if ($instance->getState() != $status) {
+                                $instance->setState($status);
+                            }
+
+                            if ($k % 10 == 0) {
+                                $this->em->flush();
+                            }
+
                         } else {
                             $io->error(sprintf('Http Code %s not valid', $url) . ' ');
                         }
-                        //Lance le fixture 
-                        // Update Services
-                        // Log 
-
                     }
-
                 }
-
-                $io->success(sprintf('Finished  %s Services Tester', $project->getName()));
-
+                $this->em->flush();
             }
-            $io->success('END SERVICES TESTER');
             return true;
         }
     }
 
-    public function addLog()
+    /**
+     * @param int $httpCode
+     * @return string
+     */
+    public function getState(int $httpCode): string
     {
-        
+        switch ($httpCode) {
+            case 0:
+            case ($httpCode < 200):
+                $status = InstanceState::STOPPED;
+                break;
+            case ($httpCode >= 200 && $httpCode < 300):
+                $status = InstanceState::RUNNING;
+                break;
+            case ($httpCode >= 300 && $httpCode < 400):
+                $status = InstanceState::REDIRECTION;
+                break;
+            case ($httpCode >= 400 && $httpCode < 500):
+                $status = InstanceState::CLIENTERROR;
+                break;
+            case ($httpCode >= 500):
+                $status = InstanceState::SERVERERROR;
+                break;
+            default:
+                $status = InstanceState::UNKNOWN;
+                break;
+        }
+        return $status;
     }
 
     /**
@@ -137,10 +158,10 @@ class ServiceTester implements ContainerAwareInterface
      */
     private function write(SymfonyStyle $io, ?string $codeCurl, ?string $url, ? string $name, ?string $ip): void
     {
-        $date = (new \DateTime())->setTimezone(new \DateTimeZone("Europe/Paris"));
+        $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
         $message = '[' . $date->format('d/m/Y H:i:s') . ']';
 
-        if ($codeCurl) {
+        if (null !== $codeCurl) {
             $message .= '[Code:' . $codeCurl . ']';
         }
 
@@ -164,13 +185,12 @@ class ServiceTester implements ContainerAwareInterface
      * @return bool
      * @throws \Exception
      */
-    public function checkLastNotification(?\DateTime $date, \DateTime $now): bool
+    public function sendNotification(?\DateTime $date, \DateTime $now): bool
     {
         if ($date instanceof \DateTime && $date !== null) {
-            $temp = new \DateTime($date->format('Y-m-d H:i'));
+            $temp = new \DateTime($date->format('Y-m-d H:i'), new \DateTimeZone("Europe/Paris"));
             $temp->add(new \DateInterval('PT' . $this->minutesToAdd . 'M'));
-
-            return ($temp <= $now) ?? false;
+            return ($temp <= $now);
         }
         return true;
     }

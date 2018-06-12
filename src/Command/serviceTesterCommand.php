@@ -24,7 +24,6 @@ class serviceTesterCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = 'test';
         $run = $input->getOption('run');
         $force = true === $input->getOption('force');
         $all = true === $input->getOption('all');
@@ -40,6 +39,7 @@ class serviceTesterCommand extends ContainerAwareCommand
             ]);
 
         }
+        $io->success('Services tested successfully! ');
     }
 }
 
