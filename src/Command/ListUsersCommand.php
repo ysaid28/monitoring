@@ -21,13 +21,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ListUsersCommand extends Command
 {
-    // a good practice is to use the 'app:' prefix to group all your custom application commands
     protected static $defaultName = 'app:list-users';
 
     private $mailer;
     private $emailSender;
     private $users;
 
+    /**
+     * ListUsersCommand constructor.
+     * @param \Swift_Mailer $mailer
+     * @param $emailSender
+     * @param UserRepository $users
+     */
     public function __construct(\Swift_Mailer $mailer, $emailSender, UserRepository $users)
     {
         parent::__construct();
@@ -88,11 +93,6 @@ HELP
             ];
         }, $allUsers);
 
-        // In your console commands you should always use the regular output type,
-        // which outputs contents directly in the console window. However, this
-        // command uses the BufferedOutput type instead, to be able to get the output
-        // contents before displaying them. This is needed because the command allows
-        // to send the list of users via email with the '--send-to' option
         $bufferedOutput = new BufferedOutput();
         $io = new SymfonyStyle($input, $bufferedOutput);
         $io->table(
