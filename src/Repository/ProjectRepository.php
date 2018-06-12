@@ -30,14 +30,22 @@ class ProjectRepository extends ServiceEntityRepository
      */
     public function getProjects(?bool $notify = true, ?bool $enabled = true, ?string $sort = 'ASC', ?int $page = 0, ?int $max = null)
     {
-        // Faudra exclure les private
+        // Faudra exclure les privates
         $req = $this->createQueryBuilder('p')
-            ->join('p.instances', 'i')
-            ->where('p.enabledNotification = :notify')
-            ->andWhere('i.enabled = :enabled')
-            ->setParameter('notify', $notify)
-            ->setParameter('enabled', $enabled)
-            ->orderBy('p.position', in_array(strtoupper($sort), ['ASC', 'DESC']) ? $sort : 'ASC');
+            ->join('p.instances', 'i');
+
+        if (null !== $notify) {
+            $req->andWhere('p.enabledNotification = :notify')
+                ->setParameter('notify', $notify);
+        }
+        
+        if (null !== $enabled) {
+            $req->andWhere('i.enabled = :enabled')
+                ->setParameter('enabled', $enabled);
+        }
+
+        $req->orderBy('p.position', in_array(strtoupper($sort), ['ASC', 'DESC']) ? $sort : 'ASC');
+
         if ($max) {
             $req = $req->getQuery()
                 ->setMaxResults($max)

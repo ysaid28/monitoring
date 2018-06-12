@@ -80,7 +80,7 @@
                         margin-left: 10px;
                         .label-icon {
                             margin-right: 10px;
-                            padding: 4px 6px ;
+                            padding: 4px 6px;
                             min-width: 30px;
                             i {
                                 margin-left: 1px;
@@ -188,4 +188,35 @@
             line-height: 1.7;
         }
     }
+
+    .console {
+        display: block;
+        height: calc(100vh - 20px - 50px - 70px - 70px);
+        width: calc(100% - 30px);
+        margin-left: 15px;
+        margin-top: 10px;
+        border-radius: 3px;
+        overflow: scroll;
+        background-color: #212121;
+        padding: 10px;
+        font-family: monospace, monospace;
+        font-size: 0.9em;
+        color: #9c9c9c;
+
+        .code {
+            width: calc(100% - 40px);
+        }
+        .code, .line_number {
+            display: inline-block;
+        }
+        .line {
+            width: 100%;
+        }
+
+        .line_number {
+            width: 25px;
+            color: #9c9c9c;
+        }
+    }
+
 }

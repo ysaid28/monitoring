@@ -39,7 +39,6 @@ class serviceTesterCommand extends ContainerAwareCommand
             ]);
 
         }
-        
         $io->success('Services tested successfully! ');
     }
 }

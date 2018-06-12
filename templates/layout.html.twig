@@ -20,7 +20,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="#">AWS <span class="text">Management</span></a>
+                    <a class="brand" href="{{ path('home_page') }}">AWS <span class="text">Management</span></a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -59,7 +59,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                     <span class="time">2 min</span>
+                                    <span class="time">2 min</span>
                                     <span class="details">
                                     <a href="https://github.com/upro">
                                     <span class="label label-sm label-icon label-danger">
@@ -67,7 +67,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                     <span class="time">10 mins</span>
+                                    <span class="time">10 mins</span>
                                     <span class="details">
                                     <a href="https://github.com/upro">
                                     <span class="label label-sm label-icon label-info">
@@ -98,9 +98,9 @@
                                         class="fa fa-link fa-fw"></i>
                                 URL</a>
                         </li>
-                        <li {% if routeName =='security_logout' %} class="active" {% endif %}>
+                        <li {% if routeName =='instance_cron' %} class="active" {% endif %}>
                             <a id="" class="spec-button"
-                               href="{{ path('home_page') }}"
+                               href="{{ path('instance_cron') }}"
                                title="Log"> <i class="fa fa-terminal"></i> Log </a>
                         </li>
                         <li>
@@ -119,6 +119,15 @@
 
 {% block body %}
     <div class="container">
+        {% block alert %}
+            <section>
+                {% for key, flashs in app.session.flashBag.all %}
+                    {% for flash in flashs %}
+                        <div class="alert alert-{{ key }}">{{ flash|raw }}</div>
+                    {% endfor %}
+                {% endfor %}
+            </section>
+        {% endblock %}
         {% block body_app %}
         {% endblock %}
     </div>

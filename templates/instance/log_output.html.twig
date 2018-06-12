@@ -1,0 +1,51 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Crontab | {{ parent() }} {% endblock %}
+
+{% block body_id %}main{% endblock %}
+
+{% block body_app %}
+
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="{{ asset('log/notifier.log') }}" target="_blank" class="btn btn-sm btn-block btn-default "><i
+                        class="fa fa-terminal fa-fw"></i>Voir le fichier de log</a>
+        </div>
+    </div>
+    <div class="row">
+        {% if logs is defined %}
+            <div class="console">
+                {% for log  in logs if log != '\n' %}
+                    <div class="line">
+                        <div class="line_number">
+                            {% if '[OK]' in log or 'Verification' in log or '---' in log %}
+                                <span class="text-success bold">{{ loop.index }}</span>
+                            {% elseif 'Code:200' in  log %}
+                                {{ loop.index }}
+                            {% else %}
+                                <span class="text-danger bold">{{ loop.index }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="code">
+                            {% if '[OK]' in log or 'Verification' in log or '---' in log %}
+                                <span class="text-success bold">{{ log }}</span>
+                            {% elseif 'Code:200' in  log %}
+                                {{ log }}
+                            {% else %}
+                                <span class="text-danger bold">{{ log }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">Aucune donnée dans le fichier de log.</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{#{% block javascripts %}#}
+    {#{{ parent() }}#}
+{#{% endblock %}#}

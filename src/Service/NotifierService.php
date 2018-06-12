@@ -90,7 +90,7 @@ class NotifierService implements ContainerAwareInterface
             $message .= 'Explication : ' . $content['message'] . " \n";
         }
         
-        $message.=  " \n\nAWS Manamegent"; 
+        $message .= " \n\nAWS Management";
 
         return [
             'subject' => '[Erreur ' . $code . '] - ' . $instance->getName(),

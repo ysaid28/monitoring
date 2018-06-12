@@ -59,10 +59,10 @@ class ServiceTester implements ContainerAwareInterface
             $io->warning("No Project enabled");
             return false;
         } else {
-            $io->title('Services test');
             /** @var Project $project */
             foreach ($projects as $project) {
-                $io->section(sprintf('Check %s services', $project->getName()));
+                
+                $io->section(sprintf('Verification of %s instances', $project->getName()));
                 foreach ($project->getInstances() as $k => $instance) {
                     $url = $this->getUrl($instance);
                     if ($url && filter_var($url, FILTER_VALIDATE_URL) && $instance->isEnabled()) {
@@ -75,8 +75,7 @@ class ServiceTester implements ContainerAwareInterface
                                     $instance->setDateNotification($now);
                                     $message = $this->notif->getMessage($instance, $httpCode, $url);
                                     if (isset($message['subject']) && isset($message['message'])) {
-//                                        dump("Message envoyé");
-                                        $this->notif->sendMessageBySns($message['subject'], $message['message'], false);
+                                       // $this->notif->sendMessageBySns($message['subject'], $message['message'], false);
                                     }
                                     // LOGGER
                                 }
@@ -97,9 +96,7 @@ class ServiceTester implements ContainerAwareInterface
                     }
                 }
                 $this->em->flush();
-                $io->success(sprintf('Finished  %s Services Tester', $project->getName()));
             }
-            $io->success('END OF TESTER');
             return true;
         }
     }
@@ -164,7 +161,7 @@ class ServiceTester implements ContainerAwareInterface
         $date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
         $message = '[' . $date->format('d/m/Y H:i:s') . ']';
 
-        if ($codeCurl) {
+        if (null !== $codeCurl) {
             $message .= '[Code:' . $codeCurl . ']';
         }
 

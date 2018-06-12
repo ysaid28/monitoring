@@ -153,14 +153,14 @@ class InitService implements ContainerAwareInterface
 
     public function otherInstance(Project $project, string $nameFile): void
     {
-        $filepath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
-        if (!file_exists($filepath)) {
+        $filePath = $this->container->getParameter('kernel.root_dir') . '/../var/data/' . $nameFile;
+        if (!file_exists($filePath)) {
             throw new \UnexpectedValueException(" The file \"'$nameFile'\" doesn't exist");
         } else if (empty($project) || !($project instanceof Project)) {
             throw new \UnexpectedValueException(" Project not found");
         }
 
-        if (($handle = fopen($filepath, 'r')) !== false) {
+        if (($handle = fopen($filePath, 'r')) !== false) {
             $i = 0;
             while (($data = fgetcsv($handle, 0, ',')) !== false) {
                 if ($i > 0 && is_array($data)) {

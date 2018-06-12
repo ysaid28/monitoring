@@ -25,13 +25,61 @@ class InstanceController extends Controller
     }
 
     /**
+     * @Route("/cron", name="instance_cron")
+     */
+    public function outputAction()
+    {
+        $filePath = $this->container->getParameter('kernel.root_dir') . '/../var/data/notifier.log';
+
+        if (!file_exists($filePath)) {
+            $this->setFlash("danger", '<i class="fa fa-warning"></i>  No log file found.');
+            return $this->redirectToRoute('home_page');
+        }
+
+        $logs = array();
+        if (($handle = fopen($filePath, 'r')) !== false) {
+            if ($handle) {
+                while (($line = fgets($handle)) !== false) {
+                    //$logs = explode("\r", $line);
+                    $logs[] = $line;
+                }
+                if (!feof($handle)) {
+                    $this->setFlash("danger", '<i class="fa fa-warning"></i> <strong>Erreur:</strong> fgets() a échoué\n.');
+                    return $this->redirectToRoute('homepage');
+                }
+
+            } else {
+                $this->setFlash("danger", '<i class="fa fa-warning"></i> <strong>Error:</strong> opening the file.');
+                return $this->redirectToRoute('homepage');
+            }
+
+        } else {
+            $this->setFlash("danger", '<i class="fa fa-warning"></i> <strong>Error:</strong> opening the file.');
+            return $this->redirectToRoute('homepage');
+        }
+        fclose($handle);
+        unset($handle, $filePath);
+      
+        return $this->render('instance/log_output.html.twig', [
+            "logs" => $logs
+        ]);
+
+    }
+
+    private function setFlash($action, $value)
+    {
+        $this->container->get('session')->getFlashBag()->set($action, $value);
+    }
+
+
+    /**
      * @Route("/notified", name="instance_notification",  options = {"expose"=true})
      * @param Request $request
      * @return JsonResponse
      */
     function notifAction(Request $request)
     {
-        
+
         $success = false;
         if ($request->isXmlHttpRequest()) {
             $instanceId = intval($request->get('id'));
@@ -42,10 +90,10 @@ class InstanceController extends Controller
                 $state = $request->get('state') == 'true' ?? false;
                 $instance->setEnabled($state);
                 $em->flush($instance);
-                if($instance->isEnabled()){
-                    $message='the instance '.$instance->getName(). ' has been reactived';
-                }else{
-                    $message='the instance '.$instance->getName(). ' has been disabled';
+                if ($instance->isEnabled()) {
+                    $message = 'the instance ' . $instance->getName() . ' has been reactived';
+                } else {
+                    $message = 'the instance ' . $instance->getName() . ' has been disabled';
                 }
             } else {
                 $message = 'No instance found';
