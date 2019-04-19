@@ -1,0 +1,87 @@
+Verification of Beeshake Démo instances
+---------------------------------------
+
+[11/06/2018 23:43:30][Code:0] - Name: eole.demo.beeshake.com - URL: http://10.1.4.211/login
+[11/06/2018 23:43:33][Code:0] - Name: hades.demo.beeshake.com - URL: http://10.1.4.196/login
+[11/06/2018 23:43:36][Code:0] - Name: atlas.demo.beeshake.com - URL: https://atlas.demo.beeshake.com/login
+[11/06/2018 23:43:37][Code:200] - Name: gaia.demo.beeshake.com - URL: https://gaia.demo.beeshake.com/login
+[11/06/2018 23:43:38][Code:200] - Name: helios.demo.beeshake.com - URL: https://helios.demo.beeshake.com/login
+[11/06/2018 23:43:41][Code:0] - Name: athena.demo.beeshake.com - URL: http://10.1.4.146/login
+[11/06/2018 23:43:44][Code:0] - Name: hermes.demo.beeshake.com - URL: http://10.1.4.15/login
+
+Verification of Netexplo instances
+----------------------------------
+
+[11/06/2018 23:43:46][Code:200] - Name: river - URL: https://adp.netexploacademy.com/login
+[11/06/2018 23:43:47][Code:200] - Name: verona - URL: https://ag2rlamondiale.netexploacademy.com/login
+[11/06/2018 23:43:48][Code:200] - Name: tictac - URL: https://formapulse.netexploacademy.com/login
+[11/06/2018 23:43:49][Code:200] - Name: jet - URL: https://airbus-group.netexploacademy.com/login
+[11/06/2018 23:43:51][Code:200] - Name: brother - URL: https://bnp-paribas.netexploacademy.com/login
+[11/06/2018 23:43:52][Code:200] - Name: yogurt - URL: https://academydigitale.bouygues.com/login
+[11/06/2018 23:43:53][Code:200] - Name: cover - URL: https://bpigroup.netexploacademy.com/login
+[11/06/2018 23:43:54][Code:200] - Name: square - URL: https://caisse-des-depots.netexploacademy.com/login
+[11/06/2018 23:43:56][Code:200] - Name: trick - URL: https://covea.netexploacademy.com/login
+[11/06/2018 23:43:57][Code:200] - Name: ballet - URL: https://edf.netexploacademy.com/login
+[11/06/2018 23:43:58][Code:200] - Name: plasma - URL: https://enedis.netexploacademy.com/login
+[11/06/2018 23:44:01][Code:0] - Name: amber - URL: https://engie.netexploacademy.com/login
+[11/06/2018 23:44:03][Code:200] - Name: clara - URL: https://eovi-mcd.netexploacademy.com/login
+[11/06/2018 23:44:04][Code:200] - Name: plastic - URL: https://grdf.netexploacademy.com/login
+[11/06/2018 23:44:07][Code:200] - Name: shadow - URL: https://groupe-la-poste.netexploacademy.com/login
+[11/06/2018 23:44:08][Code:200] - Name: lithium - URL: https://credit-agricole.netexploacademy.com/login
+[11/06/2018 23:44:10][Code:200] - Name: truck - URL: https://digitalacademy.keolis.com/login
+[11/06/2018 23:44:12][Code:404] - Name: bank - URL: https://lagardere.netexploacademy.com/login
+[11/06/2018 23:44:15][Code:0] - Name: exotic - URL: https://macif.netexploacademy.com/login
+[11/06/2018 23:44:16][Code:200] - Name: adios - URL: https://matmut.netexploacademy.com/login
+[11/06/2018 23:44:18][Code:200] - Name: ticket - URL: https://nexity.netexploacademy.com/login
+[11/06/2018 23:44:20][Code:200] - Name: future - URL: https://psa.netexploacademy.com/login
+[11/06/2018 23:44:22][Code:200] - Name: shave - URL: https://raiffeisen.netexploacademy.com/login
+[11/06/2018 23:44:24][Code:200] - Name: ralph - URL: https://ratp.netexploacademy.com/login
+[11/06/2018 23:44:26][Code:403] - Name: mother - URL: https://renault.netexploacademy.com/login
+[11/06/2018 23:44:28][Code:200] - Name: rover - URL: https://sanofi.netexploacademy.com/login
+[11/06/2018 23:44:30][Code:200] - Name: oval - URL: https://santander.netexploacademy.com/login
+[11/06/2018 23:44:32][Code:200] - Name: prime - URL: https://sncf.netexploacademy.com/login
+[11/06/2018 23:44:34][Code:200] - Name: maze - URL: https://total.netexploacademy.com/login
+[11/06/2018 23:44:35][Code:200] - Name: crown - URL: https://veolia.netexploacademy.com/login
+
+ [OK] Services tested successfully!                                                                                     
+Verification of Beeshake Démo instances
+---------------------------------------
+
+[04/01/2019 17:31:20][Code:0] - Name: eole.demo.beeshake.com - URL: http://10.1.4.211/login
+[04/01/2019 17:31:20][Code:0] - Name: hades.demo.beeshake.com - URL: http://10.1.4.196/login
+[04/01/2019 17:31:20][Code:200] - Name: atlas.demo.beeshake.com - URL: https://atlas.demo.beeshake.com/login
+[04/01/2019 17:31:20][Code:200] - Name: gaia.demo.beeshake.com - URL: https://gaia.demo.beeshake.com/login
+[04/01/2019 17:31:20][Code:200] - Name: helios.demo.beeshake.com - URL: https://helios.demo.beeshake.com/login
+[04/01/2019 17:31:20][Code:0] - Name: athena.demo.beeshake.com - URL: http://10.1.4.146/login
+[04/01/2019 17:31:20][Code:0] - Name: hermes.demo.beeshake.com - URL: http://10.1.4.15/login
+
+Verification of Netexplo instances
+----------------------------------
+
+[04/01/2019 17:31:20][Code:200] - Name: river - URL: https://adp.netexploacademy.com/login
+[04/01/2019 17:31:20][Code:200] - Name: verona - URL: https://ag2rlamondiale.netexploacademy.com/login
+[04/01/2019 17:31:20][Code:200] - Name: tictac - URL: https://formapulse.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: jet - URL: https://airbus-group.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: brother - URL: https://bnp-paribas.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: yogurt - URL: https://academydigitale.bouygues.com/login
+[04/01/2019 17:31:21][Code:200] - Name: square - URL: https://caisse-des-depots.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: trick - URL: https://covea.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: ballet - URL: https://edf.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: clara - URL: https://eovi-mcd.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: plastic - URL: https://grdf.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: shadow - URL: https://groupe-la-poste.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: lithium - URL: https://credit-agricole.netexploacademy.com/login
+[04/01/2019 17:31:21][Code:200] - Name: truck - URL: https://digitalacademy.keolis.com/login
+[04/01/2019 17:31:22][Code:200] - Name: exotic - URL: https://macif.netexploacademy.com/login
+[04/01/2019 17:31:22][Code:200] - Name: ticket - URL: https://nexity.netexploacademy.com/login
+[04/01/2019 17:31:22][Code:200] - Name: future - URL: https://psa.netexploacademy.com/login
+[04/01/2019 17:31:22][Code:200] - Name: shave - URL: https://raiffeisen.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:0] - Name: mother - URL: https://renault.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:200] - Name: rover - URL: https://sanofi.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:200] - Name: oval - URL: https://santander.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:200] - Name: prime - URL: https://sncf.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:200] - Name: maze - URL: https://total.netexploacademy.com/login
+[04/01/2019 17:31:25][Code:200] - Name: crown - URL: https://veolia.netexploacademy.com/login
+
+ [OK] Services tested successfully!                                                                                     
+

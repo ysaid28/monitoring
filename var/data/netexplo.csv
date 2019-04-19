@@ -1,0 +1,26 @@
+,Serveur,Domaine,Licence,SSO,Webservices,Boucle de provision,Custom,Major Production Version ,Major Staging Version ,V3 Production Version
+ADP,river,https://adp.netexploacademy.com,10k,SAML,-,-,,V3,V3,v1.1.2
+AG2R,verona,https://ag2rlamondiale.netexploacademy.com,10k,SAML,-,-,,V3,V3,v1.1.2
+Agirc Arcco,tictac,https://formapulse.netexploacademy.com,25k,JWT,-,-,Webhooks : WBT,V2,V2,
+Airbus,jet,https://airbus-group.netexploacademy.com/,50k,-,-,-,"CDN : academy.media.u-pro.fr
+Port SSH : 31415",V3,V3,v1.1.2
+BNP,brother,https://bnp-paribas.netexploacademy.com,25k,-,-,-,,V3,V3,v1.1.2
+Bouygues,yogurt,https://academydigitale.bouygues.com/,25k,-,-,-,-,V3,V3,v1.1.2
+Caisse des dépôts,square,https://caisse-des-depots.netexploacademy.com,10k,-,-,-,,V2,V3,
+Covea,trick,https://covea.netexploacademy.com,10k,SAML,-,-,Cache : Brainsonic,V2,V3,
+EDF ,ballet,https://edf.netexploacademy.com,50k,Custom : Lien signé,Oui,-,,V2,V3,
+EOVI MCD,clara,https://eovi-mcd.netexploacademy.com,10k,JWT,,Oui,,V3,V3,v1.1.2
+GRDF,plastic,https://grdf.netexploacademy.com,10k,SAML,-,-,,V3,V3,v1.1.2
+Groupe La Poste,shadow,https://groupe-la-poste.netexploacademy.com,10k,-,-,-,,V2,V3,
+IFCAM,lithium,https://credit-agricole.netexploacademy.com,125k,Custom : JWT Token,-,-,,V3,V3,v1.1.2
+Keolis,truck,https://digitalacademy.keolis.com/,10k,-,-,-,,V3,V3,v1.1.2
+MACIF,exotic,https://macif.netexploacademy.com,10k,-,-,-,,V3,V3,v1.1.2
+Nexity,ticket,https://nexity.netexploacademy.com,10k,Custom : Lien signé,-,Oui,,V3,V3,feature/nexity
+PSA,future,https://psa.netexploacademy.com,50k,SAML,-,Oui,,V2,V3,
+Raiffeisen,shave,https://raiffeisen.netexploacademy.com,25k,SAML,-,-,,V3,V3,v1.1.2
+Renault,mother,https://renault.netexploacademy.com,50k,Custom : Lien signé,Oui,-,,V3,V3,v1.1.2
+Sanofi,rover,https://sanofi.netexploacademy.com,10k,-,-,-,,V3,V3,v1.1.2
+Santander,oval,https://santander.netexploacademy.com,10k,SAML,-,Oui,,V3,V3,v1.1.2
+SNCF,prime,https://sncf.netexploacademy.com,50k,SAML,-,-,Cache : custom,V2,V3,
+Total,maze,https://total.netexploacademy.com,25k,Custom : Lien signé,-,-,,V3,V3,v1.1.2
+Veolia,crown,https://veolia.netexploacademy.com,10k,SAML,-,-,,V3,V3,v1.1.2

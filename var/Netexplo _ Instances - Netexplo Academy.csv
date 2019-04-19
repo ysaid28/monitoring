@@ -1,0 +1,25 @@
+,Serveur,Domaine,Licence,A migrer AWS,SSO,Webservices,Boucle de provision,Custom,Major Production Version ,Major Staging Version ,V3 Production Version,Commentaire,Repo git,Commentaire,Online,AWS,"Monitoring
+Ping","Monitoring
+SSH",Monitoring SSL,Mailer
+ADP,river,https://adp.netexploacademy.com,10k,,SAML,-,-,,V3,V3,feature/REC,,,,oui,,oui,oui,oui,Tipimail
+AG2R,verona,https://ag2rlamondiale.netexploacademy.com,10k,,SAML,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Agirc Arcco,tictac,https://formapulse.netexploacademy.com,25k,,JWT,-,-,Webhooks : WBT,V2,V2,,Le client netexplo a demandé de ne pas migrer (voir Marc),,"Ne souhaite pas migrer en V3
+Reste sur Online
+Pas de MAJ, pas de maintenance",oui,,oui,oui,oui,Tipimail
+Airbus,jet,https://airbus-group.netexploacademy.com/,50k,,-,-,-,"CDN : academy.media.u-pro.fr
+Port SSH : 31415",V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+BNP,brother,https://bnp-paribas.netexploacademy.com,25k,à faire,-,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Bouygues,juvisy,https://academydigitale.bouygues.com/,25k,fait,-,-,-,-,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Caisse des dépôts,square,https://caisse-des-depots.netexploacademy.com,10k,à faire,-,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Covea,trick,https://covea.netexploacademy.com,10k,,SAML,-,-,Cache : Brainsonic,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+EDF  ,ballet,https://edf.netexploacademy.com,50k,à faire,Custom : Lien signé,Oui,-,,V2,V3,,,,Tofdo : Migrer vers la V3 et passer sur AWS,oui,,oui,oui,oui,Tipimail
+EOVI MCD,clara,https://eovi-mcd.netexploacademy.com,10k,,JWT,,Oui,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Groupe La Poste,shadow,https://groupe-la-poste.netexploacademy.com,10k,,SAML (1.0),-,-,,V3,V3,v3.2,,,,oui,,oui,oui,oui,Tipimail
+Keolis,nosybe,https://digitalacademy.keolis.com/,10k,fait,-,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+MACIF,exotic,https://macif.netexploacademy.com,10k,à faire,-,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+PSA,future,https://psa.netexploacademy.com,50k,,SAML,-,Oui,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Sanofi,rover,https://sanofi.netexploacademy.com,10k,,SAML,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Mailjet
+Santander,oval,https://santander.netexploacademy.com,10k,,SAML,-,Oui,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+SNCF,prime,https://sncf.netexploacademy.com,50k,,SAML,-,-,Cache : custom,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Total,maze,https://total.netexploacademy.com,25k,,Custom : Lien signé,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
+Veolia,crown,https://veolia.netexploacademy.com,10k,,SAML,-,-,,V3,V3,v3.3,,,,oui,,oui,oui,oui,Tipimail
