@@ -115,15 +115,21 @@ class SSLService
     public static function getCertificateDate(string $hostName, ?bool $start = false): array
     {
         $result = ["start" => null, "end" => null];
-        $get = stream_context_create(["ssl" => ["capture_peer_cert" => TRUE]]);
-        $read = stream_socket_client("ssl://" . $hostName . ":443", $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $get);
-        $cert = stream_context_get_params($read);
-        $certInfo = openssl_x509_parse($cert['options']['ssl']['peer_certificate']);
-        if ($start === true && isset($certInfo['validFrom_time_t']) && !empty($certInfo['validFrom_time_t'])) {
-            $result['start'] = (new \DateTime())->setTimestamp($certInfo['validFrom_time_t']);
-        }
-        if (isset($certInfo['validTo_time_t']) && !empty($certInfo['validTo_time_t'])) {
-            $result['end'] = (new \DateTime())->setTimestamp($certInfo['validTo_time_t']);
+      
+        if (checkdnsrr($hostName, 'ANY')) {
+            $get = stream_context_create(["ssl" => ["capture_peer_cert" => TRUE]]);
+            $read = @stream_socket_client("ssl://" . $hostName . ":443", $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $get);
+            if ($read) {
+                $cert = stream_context_get_params($read);
+                $certInfo = openssl_x509_parse($cert['options']['ssl']['peer_certificate']);
+                if ($start === true && isset($certInfo['validFrom_time_t']) && !empty($certInfo['validFrom_time_t'])) {
+                    $result['start'] = (new \DateTime())->setTimestamp($certInfo['validFrom_time_t']);
+                }
+                if (isset($certInfo['validTo_time_t']) && !empty($certInfo['validTo_time_t'])) {
+                    $result['end'] = (new \DateTime())->setTimestamp($certInfo['validTo_time_t']);
+                }
+            }
+
         }
         return $result;
     }

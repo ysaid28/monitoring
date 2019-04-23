@@ -10,3 +10,7 @@ node_modules/
 var/cache/
 
 var/log/
+
+public/build/
+
+var/\.DS_Store
