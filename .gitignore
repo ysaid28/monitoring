@@ -14,3 +14,7 @@ var/log/
 public/build/
 
 var/\.DS_Store
+
+log/capistrano\.log
+
+var/logs/
